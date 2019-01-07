@@ -1,0 +1,7 @@
+// First Sequence
+sequence 0
+loop
+frame 0.tga 1
+frame 1.tga 1
+frame 2.tga 1
+frame 3.tga 1

@@ -1,0 +1,218 @@
+"DOTAHeroes"
+{
+	"npc_dota_hero_abaddon_template"
+	{
+		"override_hero" "npc_dota_hero_abaddon"
+
+		"Ability1" "dragon_fire_new"
+		"Ability2" "second_skill"
+		"Ability3" "mana_passive"
+		"Ability6" "true_flame"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_lion"
+	{
+		"override_hero" "npc_dota_hero_lion"
+
+		"Ability1" "lion_ulti"
+		"Ability2" "lion_dash"
+		"Ability3" "lion_passive"
+		"Ability6" "lion_mind_link"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_dazzle_qeq"
+	{
+		"override_hero" "npc_dota_hero_dazzle"
+		
+		"Ability1" "dazzle_shadow_missile"
+		"Ability2" "dazzle_ritual"
+		"Ability3" "dazzle_promotion"
+		"Ability6" "dazzle_martyr"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_venge"
+	{
+		"override_hero" "npc_dota_hero_vengefulspirit"
+
+		"Ability1" "venge_energized_blow"
+		"Ability2" "venge_resonance"
+		"Ability3" "venge_killstreak"
+		"Ability6" "venge_warpstrike"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_tb"
+	{
+		"override_hero" "npc_dota_hero_terrorblade"
+		
+		"Ability1" "tb_corrosion"
+		"Ability2" "tb_celerity"
+		"Ability3" "tb_aura"
+		"Ability6" "tb_black_mark"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_stronk"
+	{
+		"override_hero" "npc_dota_hero_centaur"
+		
+		"Ability1" "stronk_ability_1"
+		"Ability2" "stronk_command"
+		"Ability3" "stronk_unstoppable"
+		"Ability6" "stronk_great_shockwave"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_arcane"
+	{
+		"override_hero" "npc_dota_hero_oracle"
+
+		"Ability1" "oracle_test_fire"
+		"Ability2" "energy_overflow"
+		"Ability3" "force_field"
+		"Ability6" "arcane_shard"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_shield"
+	{
+		"override_hero"	"npc_dota_hero_dark_seer"
+
+		"Ability1" "shield_maintenance"
+		"Ability2" "shield_passive"
+		"Ability3" "new_surge"
+		"Ability6" "ultimate_emp"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_phantom"
+	{
+		"override_hero" "npc_dota_hero_phantom_assassin"
+
+		"Ability1" "weakening_touch"
+		"Ability2" "disorientation"
+		"Ability3" "shadow_step"
+		"Ability6" "phantom_execute"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_engineer"
+	{
+		"override_hero" "npc_dota_hero_sniper"
+				
+		"Ability1" "engineer_illusion"
+		"Ability2" "engineer_bullets"
+		"Ability3" "engineer_trap"
+		"Ability6" "engineer_reconstruction"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_lich"
+	{
+		"override_hero" "npc_dota_hero_lich"
+				
+		"Ability1" "lich_deadly_chill"
+		"Ability2" "lich_frostball"
+		"Ability3" "lich_deep_freeze"
+		"Ability6" "lich_abzero"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+
+	"npc_dota_hero_sand_king"
+	{
+		"override_hero" "npc_dota_hero_sand_king"
+
+		"Ability1" "sandstorm"
+		"Ability2" "sands_of_time"
+		"Ability3" "neurotoxin"
+		"Ability6" "crushing_prison"
+		"Ability10" ""
+		"Ability11" ""
+		"Ability12" ""
+		"Ability13" ""
+		"Ability14" ""
+		"Ability15" ""
+		"Ability16" ""
+		"Ability17" ""
+	}
+}

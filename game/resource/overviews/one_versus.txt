@@ -1,0 +1,8 @@
+one_versus
+{
+	material materials/overviews/one_versus.vmat
+	pos_x -8192
+	pos_y 8192
+	scale 16.000
+}
+

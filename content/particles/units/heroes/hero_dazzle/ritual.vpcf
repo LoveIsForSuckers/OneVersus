@@ -1,0 +1,113 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_flConstantRadius = 48.000000
+	m_nMaxParticles = 40
+	m_Children =
+	[
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_dazzle/ritual_smoke.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_dazzle/ritual_gas.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_dazzle/ritual_bits.vpcf"
+		},
+	]
+	m_Operators =
+	[
+		{
+			_class = "C_OP_BasicMovement"
+			m_Gravity =
+			[
+				0.000000,
+				0.000000,
+				-140.000000,
+			]
+		},
+		{
+			_class = "C_OP_FadeOutSimple"
+		},
+		{
+			_class = "C_OP_Decay"
+		},
+	]
+	m_Renderers =
+	[
+		{
+			_class = "C_OP_RenderSprites"
+			m_hTexture = resource:"materials/particle/particle_modulate_02a.vtex"
+		},
+	]
+	m_Initializers =
+	[
+		{
+			_class = "C_INIT_CreateWithinSphere"
+			m_fRadiusMin = 120.000000
+			m_fRadiusMax = 120.000000
+			m_vecDistanceBias =
+			[
+				0.000000,
+				0.000000,
+				1.000000,
+			]
+			m_vecDistanceBiasAbs =
+			[
+				0.000000,
+				0.000000,
+				1.000000,
+			]
+		},
+		{
+			_class = "C_INIT_RandomColor"
+			m_ColorMin =
+			[
+				255,
+				0,
+				0,
+				255,
+			]
+			m_ColorMax =
+			[
+				0,
+				0,
+				0,
+				255,
+			]
+		},
+		{
+			_class = "C_INIT_RandomAlpha"
+			m_nAlphaMin = 100
+			m_nAlphaMax = 160
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_flDegrees = 5.000000
+			m_nFieldOutput = 12
+		},
+		{
+			_class = "C_INIT_InitialVelocityNoise"
+			m_vecOutputMin =
+			[
+				0.000000,
+				0.000000,
+				-128.000000,
+			]
+			m_vecOutputMax =
+			[
+				32.000000,
+				32.000000,
+				32.000000,
+			]
+		},
+	]
+	m_Emitters =
+	[
+		{
+			_class = "C_OP_ContinuousEmitter"
+			m_flEmissionDuration = 0.600000
+			m_flEmitRate = 18.000000
+		},
+	]
+}

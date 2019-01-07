@@ -1,0 +1,13 @@
+"AddonInfo"
+
+{
+
+	"TeamCount" "2"
+	"maps" "one_versus"
+	"IsPlayable" "1"
+
+	"one_versus"
+	{
+		"MaxPlayers" "10"
+	}
+}

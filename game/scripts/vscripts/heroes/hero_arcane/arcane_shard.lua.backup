@@ -1,0 +1,29 @@
+function CreateShard( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local modifier = keys.Modifier
+	
+	caster:EmitSound("Hero_Pugna.NetherWard")
+	
+	local ward_unit = CreateUnitByName("npc_arcane_shard", keys.target_points[1], false, caster, caster, caster:GetTeam() )
+	ward_unit:SetControllableByPlayer(caster:GetPlayerID(), true)
+	ward_unit:SetOwner(caster)
+
+	ward_unit:AddNewModifier(ward_unit, nil, "modifier_kill", {duration = keys.Duration})
+	ward_unit:AddNewModifier(ward_unit, nil, "modifier_phased", {duration = 0.1})
+	ability:ApplyDataDrivenModifier(caster, ward_unit, modifier, {duration = keys.Duration})
+end
+
+function TestFire( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local target = keys.target	
+
+	if target:GetUnitName() == "npc_arcane_shard" then
+		print("I found a shard!")
+		target:AddAbility(ability:GetAbilityName())
+		local ability_level = ability:GetLevel()
+		local shard_ability = target:FindAbilityByName(ability:GetAbilityName())
+		shard_ability:SetLevel(ability_level)
+	end
+end
