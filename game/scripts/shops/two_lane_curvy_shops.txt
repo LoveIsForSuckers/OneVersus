@@ -1,0 +1,226 @@
+"dota_shops"
+{
+	"consumables"
+	{
+		"item"		"item_clarity"
+		"item"		"item_faerie_fire"
+		"item"		"item_enchanted_mango"
+		"item"		"item_tango"
+		"item"		"item_flask"
+		"item"		"item_smoke_of_deceit"
+		"item"		"item_tpscroll"
+		"item"		"item_dust"
+		"item" 		"item_courier"
+		"item"		"item_flying_courier"
+		"item"		"item_ward_observer"
+		"item"		"item_ward_sentry"
+		"item"		"item_tome_of_knowledge"
+		"item"		"item_bottle"
+	}
+
+	"attributes"
+	{
+		"item"		"item_branches"
+		"item"		"item_blood_vial"
+		"item"		"item_topaz"
+		"item"		"item_ruby"
+		"item"		"item_gauntlets"
+		"item"		"item_slippers"
+		"item"		"item_mantle"	
+		"item"		"item_circlet"
+		"item"		"item_rune_stone"
+		"item"		"item_belt_of_strength"
+		"item"		"item_boots_of_elves"
+		"item"		"item_robe"
+		"item"		"item_ogre_axe"
+		"item"		"item_blade_of_alacrity"
+		"item"		"item_staff_of_wizardry"
+	}
+
+	"weapons_armor"
+	{
+		"item"		"item_metal_piece"
+		"item"		"item_stout_shield"
+		"item"		"item_blight_stone"
+		"item"		"item_orb_of_venom"
+		"item"		"item_dagger"
+		"item"		"item_chainmail"
+		"item"		"item_quarterstaff"
+		"item"		"item_fire_essence"
+		"item"		"item_void_essence"
+		"item"		"item_time_essence"
+		"item"		"item_helm_of_iron_will"
+		"item"		"item_broadsword"
+		"item"		"item_claymore"
+		"item"		"item_javelin"
+		"item"		"item_mithril_hammer"
+	}
+	
+	"misc"
+	{
+		"item"		"item_magic_stick_datadriven"
+		"item"		"item_wind_lace"
+		"item"		"item_infused_raindrop"
+		"item"		"item_sobi_mask"
+		"item"		"item_ring_of_regen"
+		"item"		"item_boots"
+		"item"		"item_gloves"
+		"item"		"item_cloak"
+		"item"		"item_ring_of_health"
+		"item"		"item_void_stone"
+		"item"		"item_gem"
+		"item"		"item_lifesteal"
+		"item"		"item_ghost"
+		"item"		"item_blink"		
+	}	
+	
+	// Level 1 - Green Recipes
+	"basics"
+	{
+		"item"		"item_null_talisman"
+		"item"		"item_wraith_band"
+		"item"		"item_bracer"
+		"item"		"item_soul_ring"
+		"item"		"item_augurs_bracelet"
+		"item"		"item_pers"
+		"item"		"item_voidwalkers"
+		"item"		"item_genies_mask"
+		"item"		"item_travel_boots"
+		"item"		"item_golden_skull"
+		"item"		"item_moon_shard"
+		"item"		"item_banishing_wand"
+	}
+
+	// Level 2 - Blue Recipes
+	"support"
+	{
+		"item"		"item_headdress"
+		"item"		"item_buckler"
+		"item"		"item_medallion_of_courage"
+		"item"		"item_arcane_boots"
+		"item"		"item_life_giver"
+		"item"		"item_breastplate"
+		"item"		"item_luminous_staff"
+		"item"		"item_mekansm"
+		"item"		"item_pipe"
+		"item"		"item_guardian_greaves"
+	}
+	
+	"magics"
+	{
+		"item"		"item_force_staff"
+		"item"		"item_chaotic_rod"
+		"item"		"item_necronomicon"
+		"item"		"item_cyclone"
+		"item"		"item_solar_crest"
+		"item"		"item_flame_staff"
+		"item"		"item_chimeris"
+		"item"		"item_refresher"
+		"item"		"item_sheepstick"
+	}
+	
+	// Level 3 - Purple Recipes
+	"defense"
+	{
+		"item"		"item_hood_of_defiance"
+		"item"		"item_vanguard"
+		"item"		"item_blade_mail"
+		"item"		"item_soul_booster"
+		"item"		"item_crimson_guard"
+		"item"		"item_balance_amulet"
+		"item"		"item_hurricane_pike"
+		"item"		"item_black_king_bar"
+		"item"		"item_shivas_guard"
+		"item"		"item_bloodstone"
+		"item"		"item_manta"
+		"item"		"item_assault"
+		"item"		"item_heart"
+		"item"		"item_flame_guard"
+	}
+	
+	"weapons"
+	{
+		"item"		"item_quickness_dagger"
+		"item"		"item_basher"
+		"item"		"item_iceborn"
+		"item"		"item_silencesword"
+		"item"		"item_valkyries_bow"
+		"item"		"item_crit"
+		"item"		"item_ethereal_blade"
+		"item"		"item_radiance"
+		"item"		"item_monkey_king_bar"
+		"item"		"item_butterfly"
+		"item"		"item_rapier"
+		"item"		"item_abyssal_blade"
+		"item"		"item_satanic"
+		"item"		"item_desecrator"
+	}
+	
+	// Level 4 - Orange / Orb / Artifacts
+	"artifacts"
+	{
+ 		"item"		"item_mask_of_madness"
+ 		"item"		"item_helm_of_the_dominator"
+		"item"		"item_dragon_lance"
+		"item"		"item_sange"
+ 		"item"		"item_yasha"
+ 		"item"		"item_maelstrom"
+ 		"item"		"item_diffusal_blade"
+		"item"		"item_fiery_orb"
+ 		"item"		"item_desolator"
+ 		"item"		"item_heavens_halberd"
+ 		"item"		"item_sange_and_yasha"
+		"item"		"item_eviscerator"
+		"item"		"item_slow_bladestaff"
+ 		"item"		"item_skadi"
+ 		"item"		"item_mjollnir"
+ 		
+	}
+
+	"sideshop1"
+	{
+		"item"		"item_tpscroll"
+		"item"		"item_magic_stick_datadriven"
+		"item"		"item_sobi_mask"
+		"item"		"item_ring_of_regen"
+		"item"		"item_boots"
+		"item"		"item_stout_shield"
+		"item"		"item_orb_of_venom"
+		"item"		"item_dagger"
+		"item"		"item_chainmail"
+		"item"		"item_quarterstaff"
+		"item"		"item_helm_of_iron_will"
+	}
+
+	"sideshop2"
+	{
+		"item"		"item_broadsword"
+		"item"		"item_energy_booster"
+		"item"		"item_gauntlets"
+		"item"		"item_slippers"
+		"item"		"item_mantle"
+		"item"		"item_gloves"
+		"item"		"item_cloak"
+		"item"		"item_ring_of_health"
+		"item"		"item_void_stone"
+		"item"		"item_lifesteal"
+		"item"		"item_blink"
+	}
+	
+	"secretshop"
+	{
+		"item"		"item_ancient_doubloon"
+		"item"		"item_energy_booster"
+		"item"		"item_vitality_booster"
+		"item"		"item_point_booster"
+		"item"		"item_plate_mail"
+		"item"		"item_talisman_of_evasion"
+		"item"		"item_hyperstone"
+		"item"		"item_ultimate_orb"
+		"item"		"item_demon_edge"
+		"item"		"item_mystic_staff"
+		"item"		"item_reaver"
+		"item"		"item_eagle"
+		"item"		"item_relic"
+	}
+}

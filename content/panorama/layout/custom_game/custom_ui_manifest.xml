@@ -53,6 +53,19 @@
 	//Levelup button
 	newUI.FindChildTraverse("level_stats_frame").style.visibility = "collapse";
 	
+	// role filter
+	var roleFilterUI = HUD.FindChildTraverse("MainContents").FindChildTraverse("ScreenContainer").FindChildTraverse("HeroPickScreen").FindChildTraverse("HeroPickScreenContents").FindChildTraverse("HeroPickLeftColumn").FindChildTraverse("HeroFilters").FindChildTraverse("MainFilters");
+	roleFilterUI.style.visibility = "collapse";
+	
+	var pregameUI = HUD.FindChildTraverse("PreGame").FindChildTraverse("BottomPanelsContainer");
+	var minimapUI = pregameUI.FindChildTraverse("PreMinimapContainer");
+	minimapUI.style.visibility = "collapse";
+	var teamCompositionUI = pregameUI.FindChildTraverse("BottomPanels").FindChildTraverse("GridTeamComp");
+	teamCompositionUI.style.visibility = "collapse";
+	var activeQuestUI = pregameUI.FindChildTraverse("BottomPanels").FindChildTraverse("BattlePassContainer");
+	activeQuestUI.style.visibility = "collapse";
+	var itemContainerUI = pregameUI.FindChildTraverse("AvailableItemsContainer");
+	itemContainerUI.style.visibility = "collapse";
   </script> 
 
   <Panel>

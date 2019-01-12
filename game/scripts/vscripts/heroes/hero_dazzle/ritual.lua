@@ -11,5 +11,6 @@ function cast_ritual( keys )
 	local units = FindUnitsInRadius(caster:GetTeamNumber(), target:GetAbsOrigin(), target, radius, ability:GetAbilityTargetTeam(), ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), FIND_ANY_ORDER, false )
 
 	ApplyDamage({ victim = target, attacker = caster, damage = damage_dealt, damage_type = DAMAGE_TYPE_MAGICAL, ability = ability })
+	SendOverheadEventMessage( nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE , target, damage_dealt, caster )
 
 end

@@ -17,4 +17,5 @@ function OnAttackLanded( keys )
 	local damagedealt = (damagemod * target:GetMaxHealth()) / 100
 	target:EmitSound("OneVersus.Desecrate")
 	ApplyDamage({victim = target, damage = damagedealt, damage_type = DAMAGE_TYPE_PURE, attacker = caster, ability = ability })
+	SendOverheadEventMessage( nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE , target, damagedealt, caster )
 end

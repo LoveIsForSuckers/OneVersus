@@ -1,6 +1,7 @@
 "DOTAAbilities"
 {
 
+
 "item_topaz"
 {
 	"ID" "1027"
@@ -668,7 +669,8 @@
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"add_dmg" "60"
+			"add_damage" "60"
+			"CalculateSpellDamageTooltip"   "1"
 		}
 
 		"02"
@@ -681,6 +683,7 @@
 		{
 			"var_type" "FIELD_INTEGER"
 			"damage" "200"
+			"CalculateSpellDamageTooltip"   "1"
 		}
 
 		"04"
@@ -704,7 +707,7 @@
 		"07"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_damage" "10"
+			"bonus_dmg" "10"
 		}
 	}
 
@@ -761,7 +764,7 @@
 
 			"Properties"
 			{
-				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
+				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_dmg"
 				"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_hp_regen"
 				"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_int"
 			}
@@ -789,7 +792,7 @@
 					{
 						"Type" "DAMAGE_TYPE_MAGICAL"
 						"Target" "TARGET"
-						"Damage" "%add_dmg"
+						"Damage" "%add_damage"
 					}
 			}
 		}
@@ -871,6 +874,7 @@
 		{
 			"var_type" "FIELD_INTEGER"
 			"guard_damage" "50"
+			"CalculateSpellDamageTooltip"   "1"
 		}
 
 		"08"
@@ -1043,6 +1047,7 @@
 		{
 			"var_type" "FIELD_INTEGER"
 			"burn_damage" "5"
+			"CalculateSpellDamageTooltip"   "1"
 		}
 
 		"04"
@@ -1630,7 +1635,7 @@
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_armor" "8"
+			"bonus_armor" "5"
 		}
 		"02"
 		{
@@ -2327,32 +2332,38 @@
 			"var_type" "FIELD_INTEGER"
 			"bonus_atkspeed" "10"
 		}
-
+		
 		"05"
 		{
 			"var_type" "FIELD_INTEGER"
-			"pos_effect_chance" "40"
+			"damage" "200"
 		}
 
 		"06"
 		{
 			"var_type" "FIELD_INTEGER"
-			"radius" "600"
+			"pos_effect_chance" "40"
 		}
 
 		"07"
+		{
+			"var_type" "FIELD_INTEGER"
+			"radius" "600"
+		}
+
+		"08"
 		{
 			"var_type" "FIELD_FLOAT"
 			"duration" "3.14"
 		}
 
-		"08"
+		"09"
 		{
 			"var_type" "FIELD_INTEGER"
 			"max_targets" "3"
 		}
 
-		"09"
+		"10"
 		{
 			"var_type" "FIELD_INTEGER"
 			"speed" "700"
@@ -2375,7 +2386,7 @@
 				"Radius" "%radius"
 				"Teams" "DOTA_UNIT_TARGET_TEAM_BOTH"
 				"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				"MaxTargets" "4"
+				"MaxTargets" "%max_targets"
 			}
 
 			"Action"
@@ -2410,28 +2421,11 @@
 			"Chance" "%pos_effect_chance"
 			"OnSuccess"
 			{
-				"Random"
+				"Damage"
 				{
-					"Chance" "%pos_effect_chance"
-					
-					"OnSuccess"
-					{
-						"ApplyModifier"
-						{
-							"ModifierName" "modifier_chaotic_regen"
-							"Target" "TARGET"
-						}	
-					}
-	
-					"OnFailure"
-					{
-						"Damage"
-						{
-							"Target" "TARGET"
-							"Type" "DAMAGE_TYPE_MAGICAL"
-							"Damage" "200"	
-						}
-					}
+					"Target" "TARGET"
+					"Type" "DAMAGE_TYPE_MAGICAL"
+					"Damage" "%damage"	
 				}
 			}
 	
@@ -2506,21 +2500,6 @@
 			"States"
 			{
 				"MODIFIER_STATE_DISARMED" "MODIFIER_STATE_VALUE_ENABLED"
-			}
-		}
-
-		"modifier_chaotic_regen"
-		{
-			"IsBuff" "1"
-			"Duration" "%duration"
-
-			"EffectName"        "particles/units/items/chaotic_regen.vpcf"
-			"EffectAttachType"  "follow_origin"
-
-			"Properties"
-			{
-				"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "80"
-				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "50"
 			}
 		}
 	}
@@ -3215,7 +3194,7 @@
 		"06"
 		{
 			"var_type" "FIELD_INTEGER"
-			"ms_slow" "-90"
+			"ms_slow" "-60"
 		}
 		
 		"07"

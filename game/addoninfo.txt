@@ -3,10 +3,16 @@
 {
 
 	"TeamCount" "2"
-	"maps" "one_versus"
+	"maps" "one_versus two_lane_curvy"
 	"IsPlayable" "1"
+	"HeroGuidesSupported" "0"
 
 	"one_versus"
+	{
+		"MaxPlayers" "10"
+	}
+	
+	"two_lane_curvy"
 	{
 		"MaxPlayers" "10"
 	}

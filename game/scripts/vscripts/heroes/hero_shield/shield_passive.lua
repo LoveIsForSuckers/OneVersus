@@ -113,6 +113,7 @@ function ShieldAttackBoost( keys )
 	local maxshield = ability:GetLevelSpecialValueFor("max_shield",ability:GetLevel() - 1 )
 
 	ApplyDamage({victim = victim, attacker = target, damage = boost, damage_type = DAMAGE_TYPE_PURE, ability = ability})
+	SendOverheadEventMessage( nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE , victim, boost, target )
 
 	if target.ShieldLeft + boost < maxshield then
 		target.ShieldLeft = target.ShieldLeft + boost

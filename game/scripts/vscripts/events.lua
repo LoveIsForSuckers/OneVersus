@@ -1,4 +1,5 @@
 -- This file contains all barebones-registered events and has already set up the passed-in parameters for your use.
+require('util')
 
 -- Cleanup a player when they leave
 function GameMode:OnDisconnect(keys)
@@ -230,7 +231,20 @@ function GameMode:OnEntityKilled( keys )
 			killedUnit:SetTimeUntilRespawn(8 * math.log(killedUnitLevel) + 3)
 		end
     end
+	
+	--if killedUnit:IsNeutralUnitType() then
+	--	TestDrop(killedUnit)
+	--end
 end
+
+--function TestDrop(unit)
+--	local item_name = "item_poison_vial"
+--	local item = CreateItem(item_name, nil, nil)
+--	local pos = unit:GetAbsOrigin()
+--	local drop = CreateItemOnPositionSync( pos, item )
+--	local pos_launch = pos+RandomVector(RandomFloat(150,200))
+--	item:LaunchLoot(false, 200, 0.75, pos_launch)
+--end
   
 function GetNetworth( hero )
     local networth = hero:GetGold()

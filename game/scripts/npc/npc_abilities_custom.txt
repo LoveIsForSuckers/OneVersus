@@ -498,6 +498,7 @@
 		"precache"
 		{	
 			"soundfile" "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
+			"particle"	"particles/units/heroes/hero_lion/dash_sphere.vpcf"
 		}
 	
 		"BaseClass" "ability_datadriven"
@@ -528,6 +529,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"hero_dmg" "50 70 90 110"
+				"CalculateSpellDamageTooltip"   "1"
 			}
 			"04"
 			{
@@ -546,6 +548,8 @@
 
 			"LinearProjectile"
 			{
+				"EffectName" "particles/units/heroes/hero_lion/dash_sphere.vpcf"
+				"Target" "POINT"
 				"MoveSpeed" "%speed"
 				"StartRadius" "128"
 				"EndRadius" "128"
@@ -639,7 +643,7 @@
 
 				"States"
 				{
-					"MODIFIER_STATE_STUNNED" "MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_STUNNED"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
@@ -766,11 +770,13 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"arrows_base_dmg" "120 140 160 180"
+				"CalculateSpellDamageTooltip"   "1"
 			}
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
 				"arrows_dmg_per_charge" "4 5 6 7"
+				"CalculateSpellDamageTooltip"   "1"
 			}
 			"03"
 			{
@@ -834,7 +840,7 @@
 		{
 			"01"
 			{
-				"var_type" "FIELD_FLOAT"
+				"var_type" "FIELD_INTEGER"
 				"damage" "100 150 200 250"
 			}
 			"02"
@@ -2011,7 +2017,7 @@
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityTextureName"			"tb_aura"
 	
-		"AbilityCastRange"				"900"
+		"AbilityCastRange"				"600"
 
 		"AbilitySpecial"
 		{
@@ -2024,13 +2030,13 @@
 			"02"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"radius"				"900"
+				"radius"				"600"
 			}
 
 			"03"
 			{
 				"var_type"	"FIELD_INTEGER"
-				"minusresist"	"-15 -20 -25 -30"
+				"minusresist"	"-15"
 			}
 		}
 
@@ -2040,12 +2046,6 @@
 			{
 				"Passive" "1"
 				"IsHidden" "1"
-				
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%minusarmor"
-					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS" "%minusresist"
-				}
 
 				"Aura" "modifier_tb_aura_debuff"
 				"Aura_Radius" "%radius"
@@ -2209,8 +2209,6 @@
 		"AbilityCastRange" "300"
 		"AbilityCooldown" "10"
 		"AbilityManaCost" "120"
-
-		"AbilityDamage"		"90 120 150 180"
 
 		"AbilitySpecial"
 		{
@@ -2481,8 +2479,6 @@
 		"AbilityCastPoint"	"0.5"
 
 		"AbilityCooldown"	"90"
-
-		"AbilityDamage"		"175 225 300"
 		"AbilityManaCost"	"150 215 280"
 
 		"AbilitySpecial"
@@ -2733,9 +2729,6 @@
 
 		"AbilityCooldown"	"17 14 11 8"
 		"AbilityDuration"	"0.8 0.8 0.8 0.8"
-
-
-		"AbilityDamage"		"140 180 220 260"
 		"AbilityManaCost"	"120"
 
 		"AbilitySpecial"
@@ -2982,8 +2975,8 @@
 
 			"03"
 			{
-				"var_type" "FIELD_FLOAT"
-				"damage_per_mana_overflow" "1.0"
+				"var_type" "FIELD_INTEGER"
+				"damage_per_mana_overflow" "1"
 			}
 
 			"04"
@@ -3778,12 +3771,14 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"dmg_base" "50 100 150"
+				"CalculateSpellDamageTooltip"   "1"
 			}
 
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
 				"dmg_per_stack" "40 70 100"
+				"CalculateSpellDamageTooltip"   "1"
 			}
 
 			"03"
@@ -4133,7 +4128,7 @@
 			"05"
 			{
 				"var_type"		"FIELD_INTEGER"
-				"slow"			"-90"
+				"slow"			"-60"
 			}
 		}
 
@@ -4804,10 +4799,9 @@
 		"BaseClass" "ability_datadriven"
 
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityUnitDamageType" "DAMAGE_TYPE_PHYSICAL"
+		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
 		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitTargetFlags" "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
 
 		"AbilityTextureName" "deep_freeze"
 	
@@ -4817,6 +4811,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"from_max_mana_damage" "3 5 7 9"
+				"CalculateSpellDamageTooltip"   "1"
 			}
 		}
 	
@@ -4964,6 +4959,7 @@
 		"AbilityBehavior"  "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE"
 		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
 
+		"AbilityManaCost" "8 12 18 24"
 		"AbilityCastPoint" "0.5"
 		"AbilityCooldown"  "10"
 
@@ -4982,7 +4978,7 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"damage" "16 24 36 48"
+				"damage" "16 22 28 34"
 			}
 			
 			"02"
@@ -5306,19 +5302,19 @@
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
-				"magic_resist" "-16 -22 -28"
+				"magic_resist" "-10 -15 -20"
 			}
 
 			"03"
 			{
 				"var_type" "FIELD_INTEGER"
-				"damage_per_tick" "40 60 80"
+				"damage_per_tick" "25 35 45"
 			}
 
 			"04"
 			{
 				"var_type" "FIELD_INTEGER"
-				"damage_tooltip" "160 240 320"
+				"damage_tooltip" "100 140 180"
 			}
 
 			"05"

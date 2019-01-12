@@ -66,6 +66,7 @@ function ShieldAbsorb( keys )
 
 	if not enemy:IsMagicImmune() and not enemy:IsTower() and damage > minEnemyDamageToTrigger then
 		ApplyDamage({victim = enemy, damage = enemyDamage, damage_type = DAMAGE_TYPE_MAGICAL, attacker = unit, ability = ability })
+		SendOverheadEventMessage( nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE , enemy, enemyDamage, unit )
 	end
 
 	if unit.ShieldLeft <= 0 then

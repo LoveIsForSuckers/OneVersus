@@ -54,10 +54,13 @@ end
 function modifier_shadow_step:OnAttackLanded( params )
 	if IsServer() then
 		if params.attacker == self:GetParent() then
-			EmitSoundOnLocationWithCaster( self:GetCaster():GetOrigin(), "Hero_TemplarAssassin.Meld.Attack", self:GetCaster() )
-			local kek = ParticleManager:CreateParticle("particles/units/heroes/hero_phantom/shadow_step_crit.vpcf",PATTACH_ABSORIGIN_FOLLOW,params.target)
-			ParticleManager:SetParticleControl(kek,0,params.target:GetAbsOrigin())
-			ParticleManager:SetParticleControl(kek,1,params.target:GetAbsOrigin())
+			local target = params.target
+			if not target:IsBuilding() then
+				EmitSoundOnLocationWithCaster( self:GetCaster():GetOrigin(), "Hero_TemplarAssassin.Meld.Attack", self:GetCaster() )
+				local kek = ParticleManager:CreateParticle("particles/units/heroes/hero_phantom/shadow_step_crit.vpcf",PATTACH_ABSORIGIN_FOLLOW,target)
+				ParticleManager:SetParticleControl(kek,0,target:GetAbsOrigin())
+				ParticleManager:SetParticleControl(kek,1,target:GetAbsOrigin())
+			end
 			params.attacker:RemoveModifierByName("modifier_shadow_step_fake")
 			self:Destroy()
 		end
