@@ -1678,13 +1678,13 @@
 
 	"tb_corrosion"
 	{
-
 		"precache"
 		{
 			"soundfile"		"soundevents/custom_sounds.vsndevts"		
 		}
 
-		"BaseClass" "ability_datadriven"
+		"BaseClass" "ability_lua"
+		"ScriptFile" "scripts/vscripts/heroes/hero_tb/corrosion.lua"
 
 		"AbilityTextureName" "corrosion"
 		
@@ -1724,97 +1724,33 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"disarm_damage" "70 100 130 160"
+				"LinkedSpecialBonus" "tb_corrosion_talent_disarm_damage"
 			}
 		}
-
-		"OnSpellStart"
+	}
+	
+	"tb_corrosion_talent_disarm_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
 		{
-			"FireSound"
+			"01"
 			{
-				"EffectName" "OneVersus.Demon_Growl"
-				"Target" "TARGET"
-			}
-
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_corrosion_damage"
-				"Target" "TARGET"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_corrosion_damage"
-			{
-				"Duration" "%duration"
-				
-				"IsDebuff" "1"
-				"IsPurgable" "1"
-
-				"EffectName" "particles/units/heroes/hero_tb/corrosion_damage.vpcf"
-				"EffectAttachType" "follow_origin"
-
-				"ThinkInterval" "1.0"
-				"OnIntervalThink"
-				{
-					"Damage"
-					{
-						"Target" "TARGET"
-						"Type" "DAMAGE_TYPE_MAGICAL"
-						"Damage" "%damage_per_sec"
-					}
-				}
-
-				"OnAttack"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_corrosion_disarm"
-						"Target" "ATTACKER"
-					}
-
-					"Damage"
-					{
-						"Target" "ATTACKER"
-						"Type" "DAMAGE_TYPE_MAGICAL"
-						"Damage" "%disarm_damage"
-					}
-
-					"FireSound"
-					{
-						"EffectName" "OneVersus.Metal_Deep_Boom"
-						"Target" "TARGET"
-					}
-
-					"RemoveModifier"
-					{
-						"ModifierName" "modifier_corrosion_damage"
-						"Target" "ATTACKER"
-					}
-				}
-			}
-
-			"modifier_corrosion_disarm"
-			{
-				"Duration" "%disarm_duration"
-
-				"EffectName" "particles/units/heroes/hero_tb/corrosion_disarm.vpcf"
-				"EffectAttachType" "follow_origin"
-				
-				"IsDebuff" "1"
-				"IsPurgable" "1"
-
-				"States"
-				{
-					"MODIFIER_STATE_DISARMED" "MODIFIER_STATE_VALUE_ENABLED"
-				}
+				"var_type" "FIELD_INTEGER"
+				"value" "120" 				// if changing value, update addon_english manually! %value% does not work
 			}
 		}
 	}
 
 	"tb_celerity"
 	{
-		"BaseClass" "ability_datadriven"
+		"BaseClass" "ability_lua"
+		"ScriptFile" "scripts/vscripts/heroes/hero_tb/celerity.lua"
+		
 		"AbilityTextureName" "celerity"
 		
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
@@ -1829,6 +1765,7 @@
 			{
 				"var_type" "FIELD_FLOAT"
 				"duration" "3.5"
+				"LinkedSpecialBonus" "tb_celerity_talent_duration"
 			}
 			"02"
 			{
@@ -1841,44 +1778,21 @@
 				"movespeed" "25 40 55 70"
 			}
 		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "OneVersus.Demon_Swoosh"
-				"Target" "CASTER"
-			}
-
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_celerity"
-				"Target" "CASTER"
-			}
-		}
+	}
 	
-		"Modifiers"
+	"tb_celerity_talent_duration"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
 		{
-			"modifier_celerity"
+			"01"
 			{
-				"Duration" "%duration"
-				
-				"IsBuff" "1"
-				"IsPurgable" "1"
-
-				"EffectName" "particles/units/heroes/hero_tb/celerity.vpcf"
-				"EffectAttachType" "follow_origin"
-
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_EVASION_CONSTANT" "%dodge"
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%movespeed"
-				}
-
-				"States"
-				{
-					"MODIFIER_STATE_NO_UNIT_COLLISION" "MODIFIER_STATE_VALUE_ENABLED"
-				}
+				"var_type" "FIELD_FLOAT"
+				"value" "1.5" 				// if changing value, update addon_english manually! %value% does not work
 			}
 		}
 	}
