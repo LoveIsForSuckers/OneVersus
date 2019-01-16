@@ -29,20 +29,43 @@ function TrapTracker( keys )
 	local delay = 0.3
 	local vision_radius = radius
 	local vision_duration = 4.0
-	local modifier_trigger = keys.modifier_trigger
 
 	local target_team = DOTA_UNIT_TARGET_TEAM_ENEMY
 	local target_types = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 	local target_flags = DOTA_UNIT_TARGET_FLAG_NONE
 	
 	local units = FindUnitsInRadius(target:GetTeamNumber(), target:GetAbsOrigin(), nil, radius, target_team, target_types, target_flags, FIND_CLOSEST, false) 
-
+	
 	-- If there is a valid unit in range then explode the mine
 	if #units > 0 then
+		target:EmitSound("Hero_Sniper.ShrapnelShoot")
+		target:RemoveModifierByName("modifier_trap_tracker")
+		
 		Timers:CreateTimer(delay, function()
 			if target:IsAlive() then
-				ability:ApplyDataDrivenModifier(caster, target, modifier_trigger, {})
-
+				target:EmitSound("Hero_TemplarAssassin.Trap.Explode")
+				
+				local slow_duration = ability:GetLevelSpecialValueFor("slow_duration", ability_level)
+				local damage = ability:GetLevelSpecialValueFor("damage", ability_level)
+				local damageTalent = caster:FindAbilityByName("engineer_trap_talent_damage")
+				if damageTalent and damageTalent:GetLevel() > 0 then
+					damage = damage + damageTalent:GetSpecialValueFor("value")
+				end
+				local damageTable = { attacker = caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = ability }
+				
+				-- refresh units cause since delay they might have gone away or entered
+				units = FindUnitsInRadius(target:GetTeamNumber(), target:GetAbsOrigin(), nil, radius, target_team, target_types, target_flags, FIND_CLOSEST, false) 
+				if #units > 0 then
+					for _,enemy in pairs(units) do
+						if enemy ~= nil and (not enemy:IsMagicImmune()) and (not enemy:IsInvulnerable()) then
+							ability:ApplyDataDrivenModifier(caster, enemy, "modifier_trap_stun", {} )
+							damageTable.victim = enemy
+							ApplyDamage(damageTable)
+							PrintTable(damageTable)
+						end
+					end
+				end
+				
 				-- Create vision upon exploding
 				ability:CreateVisibilityNode(target:GetAbsOrigin(), vision_radius, vision_duration)
 
@@ -50,28 +73,5 @@ function TrapTracker( keys )
 				target:ForceKill(true)
 			end
 		end)
-	end
-end
-
-function TrapRemove( keys )
-	local target = keys.target
-	local ability = keys.ability
-	local ability_level = ability:GetLevel() - 1
-
-	-- Ability variables
-	local activation_radius = ability:GetLevelSpecialValueFor("radius", ability_level)
-	local unit_name = target:GetUnitName()
-
-	-- Target variables
-	local target_team = DOTA_UNIT_TARGET_TEAM_FRIENDLY
-	local target_types = DOTA_UNIT_TARGET_ALL
-	local target_flags = DOTA_UNIT_TARGET_FLAG_NONE
-
-	local units = FindUnitsInRadius(target:GetTeamNumber(), target:GetAbsOrigin(), nil, activation_radius, target_team, target_types, target_flags, FIND_CLOSEST, false)
-
-	for _,unit in ipairs(units) do
-		if unit:GetUnitName() == unit_name then
-			unit:ForceKill(true) 
-		end
 	end
 end

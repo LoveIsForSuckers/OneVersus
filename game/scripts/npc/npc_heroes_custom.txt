@@ -8,14 +8,14 @@
 		"Ability2" "second_skill"
 		"Ability3" "mana_passive"
 		"Ability6" "true_flame"
-		"Ability10" "special_bonus_attack_speed_20"
-		"Ability11" "special_bonus_mp_200"
-		"Ability12" ""
-		"Ability13" ""
-		"Ability14" ""
-		"Ability15" ""
-		"Ability16" ""
-		"Ability17" ""
+		"Ability10" "special_bonus_mp_200"
+		"Ability11" "special_bonus_attack_speed_20"
+		"Ability12" "special_bonus_spell_amplify_12"
+		"Ability13" "special_bonus_armor_7"
+		"Ability14" "second_skill_talent_base_damage"
+		"Ability15" "mana_passive_talent_manaburn"
+		"Ability16" "dragon_fire_new_talent_extra_waves"
+		"Ability17" "special_bonus_lifesteal_30"
 	}
 
 	"npc_dota_hero_lion"
@@ -84,10 +84,10 @@
 		"Ability11" "tb_corrosion_talent_disarm_damage"
 		"Ability12" "special_bonus_all_stats_8"
 		"Ability13" "tb_celerity_talent_duration"
-		"Ability14" ""
-		"Ability15" ""
-		"Ability16" ""
-		"Ability17" ""
+		"Ability14" "tb_celerity_talent_dodge"
+		"Ability15" "tb_black_mark_talent_damage_per_agi"
+		"Ability16" "special_bonus_agility_40"
+		"Ability17" "tb_black_mark_talent_postattack_debuff"
 	}
 
 	"npc_dota_hero_stronk"
@@ -165,25 +165,25 @@
 	"npc_dota_hero_engineer"
 	{
 		"override_hero" "npc_dota_hero_sniper"
-				
+		
 		"Ability1" "engineer_illusion"
 		"Ability2" "engineer_bullets"
 		"Ability3" "engineer_trap"
 		"Ability6" "engineer_reconstruction"
-		"Ability10" ""
-		"Ability11" ""
-		"Ability12" ""
-		"Ability13" ""
+		"Ability10" "special_bonus_strength_8"
+		"Ability11" "special_bonus_intelligence_8"
+		"Ability12" "engineer_trap_talent_damage"
+		"Ability13" "special_bonus_cast_range_250"
 		"Ability14" ""
 		"Ability15" ""
-		"Ability16" ""
+		"Ability16" "engineer_bullets_talent_damage"
 		"Ability17" ""
 	}
 
 	"npc_dota_hero_lich"
 	{
 		"override_hero" "npc_dota_hero_lich"
-				
+		
 		"Ability1" "lich_deadly_chill"
 		"Ability2" "lich_frostball"
 		"Ability3" "lich_deep_freeze"

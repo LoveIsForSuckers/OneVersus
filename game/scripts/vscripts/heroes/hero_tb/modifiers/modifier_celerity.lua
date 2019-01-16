@@ -1,3 +1,4 @@
+-- THIS MODIFIER ONLY GIVES MOVE SPEED, DODGE IS IMPLEMENTED SEPARATELY
 if modifier_celerity == nil then
 	modifier_celerity = class({})
 end
@@ -24,7 +25,6 @@ end
 
 function modifier_celerity:DeclareFunctions()
 	local funcs = {
-		MODIFIER_PROPERTY_EVASION_CONSTANT,
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT
 	}
 	
@@ -37,11 +37,6 @@ function modifier_celerity:CheckState()
 	}
 	
 	return state
-end
-
-function modifier_celerity:GetModifierEvasion_Constant()
-	local ability = self:GetAbility()
-	return ability:GetSpecialValueFor("dodge")
 end
 
 function modifier_celerity:GetModifierMoveSpeedBonus_Constant()

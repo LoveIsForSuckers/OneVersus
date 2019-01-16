@@ -6,6 +6,11 @@ function check_target(keys)
 	if target:HasModifier("modifier_black_mark") then
 		local agility = caster:GetAgility()
 		local dmg_per_agi = ability:GetLevelSpecialValueFor("damage_per_agi", (ability:GetLevel() - 1))
+		
+		local damageTalent = caster:FindAbilityByName("tb_black_mark_talent_damage_per_agi")
+		if damageTalent and damageTalent:GetLevel() > 0 then
+			dmg_per_agi = dmg_per_agi + damageTalent:GetSpecialValueFor("value")
+		end
 
 		local enemy_agi = target:GetAgility()
 		local dmg_per_enemy_agi = ability:GetLevelSpecialValueFor("damage_per_enemy_agi", (ability:GetLevel() - 1))
@@ -40,6 +45,12 @@ function on_attack_landed (keys)
 	
 	caster:RemoveModifierByName("modifier_black_mark_preattack_damage")
 	caster:RemoveModifierByName("modifier_black_mark_preattack_checker")
+	
+	local stunTalent = caster:FindAbilityByName("tb_black_mark_talent_postattack_debuff")
+	if stunTalent and stunTalent:GetLevel() > 0 then
+		local stunDuration = stunTalent:GetSpecialValueFor("value")
+		ability:ApplyDataDrivenModifier(caster, target, "modifier_black_mark_talent_postattack_debuff", { duration = stunDuration })
+	end
 	
 	target:RemoveModifierByName("modifier_black_mark")
 	target:EmitSound("Hero_Terrorblade.Sunder.Target")

@@ -43,16 +43,6 @@
     HUD.FindChildTraverse("RightContainer").style.visibility = "collapse"; // hide strategy phase most of screen
 	HUD.FindChildTraverse("HeroHype").style.visibility = "collapse";
 	
-	var newUI = HUD.FindChildTraverse("HUDElements").FindChildTraverse("lower_hud").FindChildTraverse("center_with_stats").FindChildTraverse("center_block");
-	//Use this line if you want to keep 4 ability minimum size, and only use 160 if you want ~2 ability min size
-	newUI.FindChildTraverse("AbilitiesAndStatBranch").style.minWidth = "270px";
-	// hide talents UI for now
-    newUI.FindChildTraverse("StatBranch").style.visibility = "collapse";
-    newUI.FindChildTraverse("StatBranch").SetPanelEvent("onmouseover", function(){});
-	newUI.FindChildTraverse("StatBranch").SetPanelEvent("onactivate", function(){});
-	//Levelup button
-	newUI.FindChildTraverse("level_stats_frame").style.visibility = "collapse";
-	
 	// role filter
 	var roleFilterUI = HUD.FindChildTraverse("MainContents").FindChildTraverse("ScreenContainer").FindChildTraverse("HeroPickScreen").FindChildTraverse("HeroPickScreenContents").FindChildTraverse("HeroPickLeftColumn").FindChildTraverse("HeroFilters").FindChildTraverse("MainFilters");
 	roleFilterUI.style.visibility = "collapse";

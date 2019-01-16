@@ -44,7 +44,6 @@
 
 	"dragon_fire_new"
 	{
-
 		"precache"
 		{
 			"soundfile" "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts"
@@ -65,36 +64,35 @@
 
 		"AbilityCooldown"	"8 7 6 5"
 		"AbilityDuration"	"0.8 0.8 0.8 0.8"
-
-
-		"AbilityDamage"		"80 120 160 200"
+		
 		"AbilityManaCost"	"90 110 130 150"
 
 		"AbilitySpecial"
-      	   	  {	
-          	 	 "01"
-         	 	  {
-           	 	    "var_type"                    "FIELD_INTEGER"
-           	 	    "speed"        "1000"
-         	 	  }
+		{	
+			"01"
+			{
+				"var_type"                    "FIELD_INTEGER"
+				"speed"        "1000"
+			}
   
-          		  "02"
-          		  {
-         	 	      "var_type"                    "FIELD_INTEGER"
-                		"width"    "240"
-         		   }
+			"02"
+			{
+			    "var_type"                    "FIELD_INTEGER"
+				"width"    "240"
+			}
   		
-            		"03"
-          		  {
-              		  	"var_type"                    "FIELD_INTEGER"
-           		   	"distance"            "800"
-          		  }
+			"03"
+		    {
+				"var_type"                    "FIELD_INTEGER"
+			    "distance"            "800"
+		    }
+			
 			"04"
 			{
 				"var_type"	"FIELD_INTEGER"
 				"damage"	"80 120 160 200"
 			}
-	  	 }
+	  	}
 
 		"OnSpellStart"
 		{
@@ -103,21 +101,13 @@
 				"EffectName" "Hero_DragonKnight.BreathFire"
 				"Target" "CASTER"
 			}
-	
-			"LinearProjectile"
+			
+			"RunScript"
 			{
+				"ScriptFile" "scripts/vscripts/heroes/hero_aba/dragon_fire_new.lua"
+				"Function" "OnSpellStart"
 				"Target" "POINT"
-				"EffectName" "particles/units/heroes/hero_aba/aba_spell_dragon_slave.vpcf"
-				"MoveSpeed" "%speed"
-				"StartRadius" "128"
-				"EndRadius" "%width"
-				"FixedDistance" "%distance"
-				"TargetTeams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-				"TargetTypes" "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
-				"TargetFlags" "DOTA_UNIT_TARGET_FLAG_NONE"
-				"HasFrontalCone" "0"
-				"ProvidesVision" "1"
-				"VisionRadius" "300"
+				"Particle" "particles/units/heroes/hero_aba/aba_spell_dragon_slave.vpcf"
 			}
 		}
 
@@ -132,9 +122,36 @@
 				"Damage" "%damage"
 			}
 		}
-
 	}
-
+	
+	"dragon_fire_new_talent_extra_waves"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "4" 				// serves as wave count, must be even, update addon_english if checking
+			}
+			
+			"02"
+			{
+				"var_type" "FIELD_FLOAT"
+				"offset_angle_radian" "0.26"
+			}
+			
+			"03"
+			{
+				"var_type" "FIELD_FLOAT"
+				"distance_reduction_mult" "0.7" // applies for each two waves (wave 1 goes 1 distance, waves 2 and 3 go 0.7 distance, waves 4 and 5 go 0.49 distance)
+			}
+		}
+	}
 
 	"second_skill"
 	{
@@ -164,7 +181,15 @@
 				"var_type" "FIELD_FLOAT"
 				"stun_duration" "1.0 1.5 2.0 2.5"
 			}
+			
 			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"base_damage" "50"
+				"LinkedSpecialBonus" "second_skill_talent_base_damage"
+			}
+			
+			"03"
 			{
 				"var_type" "FIELD_FLOAT"
 				"damagemod" "1.7 1.8 1.9 2.0"
@@ -200,27 +225,39 @@
 			}
 		}
 	}
-
+	
+	"second_skill_talent_base_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "200" 				// if changing value, update addon_english manually! %value% does not work
+			}
+		}
+	}
 
 	"mana_passive"
 	{
 		"BaseClass" "ability_datadriven"
 		"AbilityTextureName" "mana_passive"
 
+		"AbilityDamageType" "DAMAGE_TYPE_PHYSICAL"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
 
 		"AbilitySpecial"
 		{
 			"01"
 			{
 				"var_type"	"FIELD_INTEGER"
-				"mana_gain" "2 4 6 8"
-			}
-			"02"
-			{
-				"var_type" 	"FIELD_INTEGER"
-				"lifesteal"		"6 8 10 12"
+				"mana_gain" "6 12 18 24"
 			}
 		}
 
@@ -237,43 +274,29 @@
 
 				"OnOrbImpact"
 				{
-					"ApplyModifier"
-					{
-						"ModifierName" "mana_gain_mod"
-						"Target" "CASTER"
-					}
-
 					"RunScript"
 					{
 						"ScriptFile"			"scripts/vscripts/heroes/hero_aba/mana_passive.lua"
-						"Function"				"Lifesteal"
+						"Function"				"OnOrbImpact"
 					}
 				}
 			}
-
-			"modifier_mana_passive_lifesteal"
+		}
+	}
+	
+	"mana_passive_talent_manaburn"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
 			{
-				"IsHidden" "1"
-				"IsPurgable" "0"
-				"Passive"			"0"
-
-				"OnDealDamage"
-				{
-					"Lifesteal"
-					{
-						"Target"			"ATTACKER"
-						"LifestealPercent"	"%lifesteal"
-					}
-				}
-			}
-
-			"mana_gain_mod"
-			{
-				"Duration" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%mana_gain"
-				}
+				"var_type" "FIELD_INTEGER"
+				"value" "1" 				// not relevant, check lua script
 			}
 		}
 	}
@@ -349,9 +372,7 @@
 
 			}
 		}
-
 	}
-
 
 	"lion_mind_link"
 	{
@@ -1771,6 +1792,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"dodge" "25 40 55 70"
+				"LinkedSpecialBonus" "tb_celerity_talent_dodge"
 			}
 			"03"
 			{
@@ -1793,6 +1815,23 @@
 			{
 				"var_type" "FIELD_FLOAT"
 				"value" "1.5" 				// if changing value, update addon_english manually! %value% does not work
+			}
+		}
+	}
+	
+	"tb_celerity_talent_dodge"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "30" 				// if changing value, update addon_english manually! %value% does not work
 			}
 		}
 	}
@@ -1828,6 +1867,7 @@
 			{
 				"var_type" "FIELD_FLOAT"
 				"damage_per_agi" "2.0"
+				"LinkedSpecialBonus" "tb_black_mark_talent_damage_per_agi"
 			}
 
 			"03"
@@ -1919,6 +1959,54 @@
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "1"
 				}
+			}
+			
+			"modifier_black_mark_talent_postattack_debuff"
+			{
+				"IsDebuff" "1"
+				"IsPurgable" "0"
+				
+				"EffectName" "particles/generic_gameplay/generic_stunned.vpcf"
+				"EffectAttachType" "follow_overhead"
+				
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED" "MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+	}
+	
+	"tb_black_mark_talent_damage_per_agi"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "1.5" 				// if changing value, update addon_english manually! %value% does not work
+			}
+		}
+	}
+	
+	"tb_black_mark_talent_postattack_debuff"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "2.0" 				// if changing value, update addon_english manually! %value% does not work
 			}
 		}
 	}
@@ -3815,6 +3903,7 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"bonus_damage"			"50 80 110 140"
+				"LinkedSpecialBonus"	"engineer_bullets_talent_damage"
 			}
 
 			"04"
@@ -3822,23 +3911,21 @@
 				"var_type"				"FIELD_INTEGER"
 				"bonus_as"			"-30 -45 -60 -75"
 			}
+			
+			"05"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_damage_talent" "200" // see engineer_bullets_talent_damage for tooltip, this is for modifier
+			}
 		}
 
 		"OnSpellStart"
 		{
-			"FireSound"
+			"RunScript"
 			{
-				"EffectName" "Ability.AssassinateLoad"
-				"Target" "CASTER"
+				"ScriptFile"		"heroes/hero_engineer/bullets.lua"
+				"Function"			"OnSpellStart"
 			}
-
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_bullets"
-				"Target" "CASTER"
-				"Duration" "%duration"
-			}
-			
 		}
 
 		"Modifiers"
@@ -3846,6 +3933,8 @@
 			"modifier_bullets"
 			{
 				"IsBuff" "1"
+				"IsPurgable" "0"
+				"Duration" "%duration"
 
 				"EffectName" "particles/units/heroes/hero_engineer/bullets.vpcf"
 				"EffectAttachType" "attach_attack1"
@@ -3859,7 +3948,6 @@
 
 				"OnAttack"
 				{
-
 					"FireEffect"
 					{
 						"EffectName" "particles/units/heroes/hero_engineer/bullets_shot.vpcf"
@@ -3887,6 +3975,36 @@
 						"Target" "CASTER"
 					}
 				}
+			}
+			
+			"modifier_bullets_talent"
+			{
+				"IsHidden" "1"
+				"IsBuff" "1"
+				"IsPurgable" "0"
+				"Duration" "%duration"
+
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage_talent"
+				}
+			}
+		}
+	}
+	
+	"engineer_bullets_talent_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "200" 				// damage for tooltip, actual modifier damage is in ability, don't forget adjust addon_english if changing value
 			}
 		}
 	}
@@ -4031,6 +4149,7 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"damage"			"80 140 200 260"
+				"LinkedSpecialBonus" "engineer_trap_talent_damage"
 			}
 
 			"04"
@@ -4047,13 +4166,12 @@
 		}
 
 		"OnSpellStart"
-		{		
-
+		{
 			"FireSound"
 			{
 				"EffectName" "Hero_TemplarAssassin.Trap.Cast"
-				"Target" "TARGET"
-			}	
+				"Target" "POINT"
+			}
 
 			"RunScript"
 			{
@@ -4099,55 +4217,6 @@
 					{
 						"ScriptFile"	"heroes/hero_engineer/trap.lua"
 						"Function"		"TrapTracker"
-						"modifier_trigger"	"modifier_trap_trigger"
-					}
-				}
-			}
-
-
-			"modifier_trap_trigger"
-			{
-				"OnCreated"
-				{
-					"ActOnTargets"
-					{
-						"Target"
-						{
-							"Center"  	"TARGET"
-							"Radius" 	"%radius"
-							"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
-							"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-						}
-				
-						"Action"    
-						{
-							"ApplyModifier"
-							{
-								"ModifierName"	"modifier_trap_stun"
-								"Target" 		"TARGET"
-								"Duration"		"%slow_duration"
-							}
-
-							"Damage"
-							{
-								"Type" "DAMAGE_TYPE_MAGICAL"
-								"Target" "TARGET"
-								"Damage" "%damage"
-							}
-
-						}
-					}
-	
-					"CreateThinker"
-					{
-						"ModifierName"	"modifier_trap_thinker"
-						"Target" 		"TARGET"
-					}
-
-					"RunScript"
-					{
-						"ScriptFile"	"heroes/hero_engineer/trap.lua"
-						"Function"		"TrapRemove"
 					}
 				}
 			}
@@ -4155,6 +4224,7 @@
 			"modifier_trap_stun"
 			{
 				"IsDebuff"	"1"
+				"Duration" "%slow_duration"
 	
 				"EffectName"        "particles/units/heroes/hero_engineer/trapped.vpcf"
 				"EffectAttachType"  "follow_origin"
@@ -4163,22 +4233,25 @@
 				{
 					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow"
 				}
-			}	
-
-			"modifier_trap_thinker"
-			{
-				"Duration"	"0.03"
-
-				"OnCreated"
-				{
-					"FireSound"
-					{
-						"EffectName" "Hero_TemplarAssassin.Trap.Explode"
-						"Target" "TARGET"
-					}
-				}
 			}
 		}	
+	}
+	
+	"engineer_trap_talent_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "140" 				// damage, don't forget adjust addon_english if changing value
+			}
+		}
 	}
 
 	"engineer_reconstruction"

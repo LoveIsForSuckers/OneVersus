@@ -38,6 +38,8 @@ require('events')
 
 --require("examples/worldpanelsExample")
 
+LinkLuaModifier("modifier_charges", "util/modifiers/modifier_charges.lua", LUA_MODIFIER_MOTION_NONE)
+
 --[[
   This function should be used to set up Async precache calls at the beginning of the gameplay.
 

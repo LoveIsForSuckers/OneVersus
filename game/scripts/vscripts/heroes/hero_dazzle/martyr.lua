@@ -7,8 +7,6 @@ function suffer( keys )
 	local maxmana = caster:GetMaxMana()
 	local mana = caster:GetMana()
 
-	hp_conv_rate = hp_conv_rate / 2 --Ticks twice per second
-
 	local bonusmana = (maxmana * hp_conv_rate) / 100
 	local minushealth = (maxhealth * hp_conv_rate) / 100
 
