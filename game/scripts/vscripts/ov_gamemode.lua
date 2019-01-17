@@ -6,6 +6,7 @@ end
 
 -- This library allow for easily delayed/timed actions
 require('libraries/timers')
+require('util/passiveTalentManager')
 -- This library can be used for advancted physics/motion/collision of units.  See PhysicsReadme.txt for more information.
 -- require('libraries/physics')
 -- This library can be used for advanced 3D projectile systems.
@@ -38,7 +39,12 @@ require('events')
 
 --require("examples/worldpanelsExample")
 
+-- util modifiers
 LinkLuaModifier("modifier_charges", "util/modifiers/modifier_charges.lua", LUA_MODIFIER_MOTION_NONE)
+
+-- test modifiers
+--PassiveTalentManager:RegisterLuaModifier("test_passive_talent", "test_passive_talent_modifier", "util/modifiers/test_passive_talent_modifier.lua", LUA_MODIFIER_MOTION_NONE, {})
+
 
 --[[
   This function should be used to set up Async precache calls at the beginning of the gameplay.

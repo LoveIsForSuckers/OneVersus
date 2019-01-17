@@ -11,7 +11,7 @@ if IsServer() then
 
         if self:GetStackCount() == 0 then
             self:GetAbility():StartCooldown(self:GetRemainingTime())
-        end
+		end
     end
 
     function modifier_charges:OnCreated(kv)
@@ -22,6 +22,14 @@ if IsServer() then
             self:Update()
         end
     end
+	
+	function modifier_charges:OnRefresh(kv)
+		self.kv = kv
+		
+		if self:GetStackCount() < kv.max_count and self:GetDuration() == -1 then
+			self:Update()
+		end
+	end
 
     function modifier_charges:DeclareFunctions()
         local funcs = {

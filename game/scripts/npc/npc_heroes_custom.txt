@@ -175,7 +175,7 @@
 		"Ability12" "engineer_trap_talent_damage"
 		"Ability13" "special_bonus_cast_range_250"
 		"Ability14" ""
-		"Ability15" ""
+		"Ability15" "engineer_trap_talent_charges"
 		"Ability16" "engineer_bullets_talent_damage"
 		"Ability17" ""
 	}

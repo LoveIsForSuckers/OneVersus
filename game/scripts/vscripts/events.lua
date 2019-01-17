@@ -1,5 +1,6 @@
 -- This file contains all barebones-registered events and has already set up the passed-in parameters for your use.
 require('util')
+require('util/passiveTalentManager')
 
 -- Cleanup a player when they leave
 function GameMode:OnDisconnect(keys)
@@ -116,12 +117,13 @@ function GameMode:OnPlayerChangedName(keys)
 end
 
 -- A player leveled up an ability
-function GameMode:OnPlayerLearnedAbility( keys)
+function GameMode:OnPlayerLearnedAbility(keys)
   --DebugPrint('[BAREBONES] OnPlayerLearnedAbility')
   --DebugPrintTable(keys)
 
-  local player = EntIndexToHScript(keys.player)
-  local abilityname = keys.abilityname
+	if IsServer() then
+		PassiveTalentManager:OnPlayerLearnedAbility(keys)
+	end
 end
 
 -- A channelled ability finished by either completing or being interrupted
