@@ -2719,7 +2719,7 @@
 		"BaseClass"	"ability_datadriven"
 		"AbilityTextureName"	"mystica_arrow"
 
-		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
@@ -3879,7 +3879,7 @@
 	{
 		"BaseClass" "ability_datadriven"
 		
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
 		"AbilityTextureName" "bullets"
 
 		"AbilityCooldown" "22 20 18 16"
@@ -4114,7 +4114,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCastRange"				"192"
 		"AOERadius"					"%radius"
-		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"AbilityCastPoint"				"0.4 0.4 0.4 0.4"
 	
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
@@ -4209,7 +4209,7 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"value" "3" 				// tooltip value, actual one is in ability, don't forget adjust addon_english if changing value
+				"value" "3" 				// extra trap max charges, adjust addon_english if changing value
 			}
 		}
 	}
@@ -4227,8 +4227,9 @@
 		"BaseClass"				"ability_datadriven"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_BUILDING"			
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_BUILDING"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 	
 		"AbilityCastRange"				"192"
 		"AbilityCastPoint"				"0.5 0.5 0.5"
@@ -4282,16 +4283,11 @@
 
 		"OnSpellStart"
 		{
-			"FireSound"
+			"RunScript"
 			{
-				"EffectName" "Hero_Tinker.RearmStart"
-				"Target" "TARGET"
-			}
-
-			"ApplyModifier"
-			{
-				"ModifierName"	"modifier_reconstruct_heal"
-				"Target" 		"TARGET"
+				"ScriptFile"    "heroes/hero_engineer/reconstruction.lua"
+				"Function"      "OnSpellStart"
+				"Target"		"TARGET"
 			}
 		}
 
@@ -4306,12 +4302,14 @@
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%armor_boost"
 					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%as_boost"
 				}
+				
+				"Attributes" "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 
 				"OnCreated"
 				{
 					"RunScript"
 					{
-						"ScriptFile"    "heroes/hero_engineer/armor.lua"
+						"ScriptFile"    "heroes/hero_engineer/reconstruction.lua"
 					        "Function"      "ArmorParticle"
 						"EffectName"        "particles/units/heroes/hero_engineer/reconstruction_buff.vpcf"	
 			    		}
@@ -4321,7 +4319,7 @@
 				{
 					"RunScript"
 					{
-						"ScriptFile"    "heroes/hero_engineer/armor.lua"
+						"ScriptFile"    "heroes/hero_engineer/reconstruction.lua"
 			        		"Function"      "EndArmorParticle"	
 					}
 				}
@@ -4334,6 +4332,8 @@
 
 				"EffectName"        "particles/units/heroes/hero_engineer/heal.vpcf"
 				"EffectAttachType"  "follow_origin"
+				
+				"Attributes" "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 
 				"Properties"
 				{
@@ -4342,18 +4342,29 @@
 
 				"OnDestroy"
 				{
-					"FireSound"
+					"RunScript"
 					{
-						"EffectName" "OneVersus.MetalScree"
-						"Target" "TARGET"
-					}
-
-					"ApplyModifier"
-					{
-						"ModifierName"	"modifier_reconstruct_buff"
-						"Target" 		"TARGET"
+						"ScriptFile"    "heroes/hero_engineer/reconstruction.lua"
+			        		"Function"      "ApplyBuff"	
 					}
 				}
+			}
+		}
+	}
+	
+	"engineer_reconstruction_talent_permanent_health_boost"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "80" 				// health bonus, adjust addon_english if changing value
 			}
 		}
 	}

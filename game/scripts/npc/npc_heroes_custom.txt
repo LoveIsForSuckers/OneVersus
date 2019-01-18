@@ -174,10 +174,10 @@
 		"Ability11" "special_bonus_intelligence_8"
 		"Ability12" "engineer_trap_talent_damage"
 		"Ability13" "special_bonus_cast_range_250"
-		"Ability14" ""
+		"Ability14" "engineer_reconstruction_talent_permanent_health_boost"
 		"Ability15" "engineer_trap_talent_charges"
 		"Ability16" "engineer_bullets_talent_damage"
-		"Ability17" ""
+		"Ability17" "special_bonus_attack_speed_70"
 	}
 
 	"npc_dota_hero_lich"
