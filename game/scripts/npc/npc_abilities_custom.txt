@@ -924,23 +924,10 @@
 		{
 			"DeleteOnHit" "1"
 
-			"FireSound"
+			"RunScript"
 			{
-				"EffectName"	"Hero_Dazzle.Poison_Touch"
-				"Target" 		"TARGET"
-			}
-
-			"Damage"
-			{
-				"Type" "DAMAGE_TYPE_MAGICAL"
-				"Target" "TARGET"
-				"Damage" "%damage"
-			}
-			
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_shadow_missile_slow"
-				"Target" "TARGET"
+				"ScriptFile" "scripts/vscripts/heroes/hero_dazzle/shadow_missile.lua"
+				"Function" "OnProjectileHitUnit"
 			}
 		}
 
@@ -961,16 +948,33 @@
 			}
 		}
 	}
+	
+	"dazzle_shadow_missile_talent_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "1.5" 				// bonus damage per str, if changing value, update addon_english manually! %value% does not work
+			}
+		}
+	}
 
 	"dazzle_ritual"
 	{
-		"BaseClass" "ability_datadriven"
+		"BaseClass" "ability_lua"
+		"ScriptFile" "scripts/vscripts/heroes/hero_dazzle/ritual.lua"
 		"AbilityTextureName" "ritual"
 
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
 
 		"AbilityCastRange" "600"
@@ -985,27 +989,45 @@
 				"var_type" "FIELD_INTEGER"
 				"hp_percent" "20 23 26 30"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"	"Hero_Dazzle.Weave"
-				"Target" 		"CASTER"
-			}
 			
-			"FireEffect"
+			"02"
 			{
-				"EffectName"        "particles/units/heroes/hero_dazzle/ritual.vpcf"
-				"EffectAttachType"  "follow_origin"
-				"Target"        "TARGET"
+				"var_type" "FIELD_INTEGER"
+				"cooldown_reduction_talent" "3"
 			}
-
-			"RunScript"
+		}
+	}
+	
+	"dazzle_ritual_talent_cooldown"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
 			{
-				"ScriptFile" "scripts/vscripts/heroes/hero_dazzle/ritual.lua"
-				"Function" "cast_ritual"
+				"var_type" "FIELD_INTEGER"
+				"value" "3" 				// irrelevant - actual value in ability special, if changing value, update addon_english manually! %value% does not work
+			}
+		}
+	}
+	
+	"dazzle_ritual_talent_puredamage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "1" 				// irrelevant
 			}
 		}
 	}
@@ -1045,6 +1067,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"duration" "25"
+				"LinkedSpecialBonus" "dazzle_promotion_talent_duration"
 			}
 			"04"
 			{
@@ -1065,28 +1088,10 @@
 
 		"OnSpellStart"
 		{
-			"FireSound"
-			{
-				"EffectName"	"Hero_Dazzle.Shadow_Wave"
-				"Target" 		"TARGET"
-			}
-
-			"Heal"
-			{
-				"HealAmount" "%heal"
-				"Target" "TARGET"
-			}
-			
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_promotion"
-				"Target" "TARGET"
-			}
-
 			"RunScript"
 			{
 				"ScriptFile" "scripts/vscripts/heroes/hero_dazzle/promotion.lua"
-				"Function" "upscale"
+				"Function" "OnSpellStart"
 			}
 		}
 
@@ -1096,7 +1101,6 @@
 			{
 				"IsBuff" "1"
 				"IsPurgable" "0"
-				"Duration" "%duration"
 				"EffectName" "particles/units/heroes/hero_dazzle/promotion.vpcf"
 				"EffectAttachType" "follow_origin"
 
@@ -1122,6 +1126,23 @@
 						"Damage" "5000" // Enough to kill any creep
 					}
 				}
+			}
+		}
+	}
+	
+	"dazzle_promotion_talent_duration"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "25" 				// if changing value, update addon_english manually! %value% does not work
 			}
 		}
 	}
@@ -1201,6 +1222,12 @@
 			{
 				"ModifierName" "modifier_martyr_caster"
 				"Target" "CASTER"
+			}
+			
+			"DestroyTrees"
+			{
+				"Target" "CASTER"
+				"Radius" "%radius"
 			}
 		}
 
@@ -1295,7 +1322,7 @@
 			{
 				"IsDebuff" "1"
 				"IsPurgable" "0"
-				"Duration" "0.5"
+				"Duration" "0.96"
 				"EffectName" "particles/units/heroes/hero_dazzle/shadow_missile_slow.vpcf"
 				"EffectAttachType" "follow_origin"
 
@@ -1303,6 +1330,23 @@
 				{
 					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%ms_slow"
 				}
+			}
+		}
+	}
+	
+	"dazzle_martyr_talent_no_interrupt"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "1" 				// irrelevant
 			}
 		}
 	}

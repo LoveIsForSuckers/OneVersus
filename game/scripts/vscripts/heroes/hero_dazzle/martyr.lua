@@ -15,12 +15,18 @@ function suffer( keys )
 	
 	if health <= 1 then
 		caster:Interrupt()
+		caster:SetHealth(1)
 	else
 		caster:SetHealth(health)
 	end
 
 	if mana >= maxmana then
-		caster:Interrupt()
+		local noInterruptTalent = caster:FindAbilityByName("dazzle_martyr_talent_no_interrupt")
+		if noInterruptTalent and noInterruptTalent:GetLevel() > 0 then
+			caster:SetMana(maxmana)
+		else
+			caster:Interrupt()
+		end
 	else
 		caster:SetMana(mana)
 	end

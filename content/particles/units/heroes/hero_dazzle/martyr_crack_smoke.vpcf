@@ -1,79 +1,61 @@
-<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf16:version{261b3cba-02c7-424f-854b-c432c6f018d1} -->
 {
 	_class = "CParticleSystemDefinition"
-	m_ConstantColor =
-	[
-		170,
-		0,
-		127,
-		255,
-	]
+	m_ConstantColor = [ 170, 0, 127, 255 ]
 	m_nMaxParticles = 32
-	m_Operators =
+	m_Operators = 
 	[
 		{
 			_class = "C_OP_Decay"
 		},
 		{
 			_class = "C_OP_BasicMovement"
-			m_Gravity =
-			[
-				0.000000,
-				0.000000,
-				200.000000,
-			]
+			m_Gravity = [ 0.0, 0.0, 200.0 ]
 		},
 		{
 			_class = "C_OP_FadeOutSimple"
 		},
 	]
-	m_Renderers =
+	m_Renderers = 
 	[
 		{
 			_class = "C_OP_RenderSprites"
 			m_hTexture = resource:"materials/particle/smoke3/smoke3.vtex"
 		},
 	]
-	m_Initializers =
+	m_Initializers = 
 	[
 		{
 			_class = "C_INIT_CreateInEpitrochoid"
-			m_flRadius1 = 16.000000
-			m_flRadius2 = 16.000000
+			m_flRadius1 = 16.0
+			m_flRadius2 = 16.0
 		},
 		{
 			_class = "C_INIT_RandomRotation"
 		},
 		{
 			_class = "C_INIT_RandomRadius"
-			m_flRadiusMin = 24.000000
-			m_flRadiusMax = 32.000000
+			m_flRadiusMin = 24.0
+			m_flRadiusMax = 32.0
 		},
 		{
 			_class = "C_INIT_RandomSequence"
 		},
 		{
 			_class = "C_INIT_PositionOffset"
-			m_OffsetMin =
-			[
-				-32.000000,
-				-32.000000,
-				0.000000,
-			]
-			m_OffsetMax =
-			[
-				32.000000,
-				32.000000,
-				0.000000,
-			]
+			m_OffsetMin = [ -32.0, -32.0, 0.0 ]
+			m_OffsetMax = [ 32.0, 32.0, 0.0 ]
 		},
 	]
-	m_Emitters =
+	m_Emitters = 
 	[
 		{
 			_class = "C_OP_ContinuousEmitter"
-			m_flEmitRate = 32.000000
-			m_flStartTime = 2.000000
+			m_flEmitRate = 32.0
+			m_flStartTime = 2.0
 		},
 	]
+	m_PreEmissionOperators = [  ]
+	m_nBehaviorVersion = 8
+	m_nFirstMultipleOverride_BackwardCompat = 4
 }
