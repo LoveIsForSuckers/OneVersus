@@ -2234,16 +2234,17 @@
 		}
 	}
 
-	"stronk_ability_1"
+	"stronk_stomp"
 	{
 		"precache"
 		{
 			"soundfile"		"soundevents/custom_sounds.vsndevts"		
 		}
 
-		"BaseClass" "ability_datadriven"
+		"BaseClass" "ability_lua"
+		"ScriptFile" "scripts/vscripts/heroes/hero_stronk/stomp.lua"
+		
 		"AbilityTextureName"			"stomp"
-
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -2268,6 +2269,7 @@
 			{
 				"var_type" "FIELD_FLOAT"
 				"duration" "1.2 1.4 1.6 1.8"
+				"LinkedSpecialBonus" "stronk_stomp_talent_stunduration"
 			}
 
 			"03"
@@ -2292,88 +2294,81 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"trauma_chance" "30"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"	"Hero_Centaur.HoofStomp"
-				"Target" 		"CASTER"
+				"LinkedSpecialBonus" "stronk_stomp_talent_trauma_chance"
 			}
 			
-			"FireEffect"
+			"07"
 			{
-				"EffectName" "particles/units/heroes/hero_stronk/earth_a.vpcf"
-				"EffectAttachType"  "follow_origin"
-				"Target" "CASTER"
-			}
-
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center" "CASTER"
-					"Radius" "%radius"
-					"Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				
-				"Action"
-				{
-
-					"Stun"
-					{
-						"Duration" "%duration"
-						"Target" "TARGET"
-					}
-
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-
-					"Random"
-					{
-						"Chance" "%trauma_chance"
-	
-						"OnSuccess"
-						{
-							"FireSound"
-							{
-								"EffectName"	"OneVersus.Trauma"
-								"Target" 	"TARGET"
-							}
-
-							"ApplyModifier"
-							{
-								"ModifierName" "modifier_stronk_trauma"
-								"Target" "TARGET"
-							}
-						}
-					}
-				}
+				"var_type" "FIELD_INTEGER"
+				"cooldown_reduction_talent" "5"
 			}
 		}
-
-		"Modifiers"
+	}
+	
+	"stronk_stomp_talent_trauma_chance"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
 		{
-			"modifier_stronk_trauma"
+			"01"
 			{
-				"IsDebuff" "1"
-
-				"EffectName" "particles/units/heroes/hero_stronk/earth_trauma.vpcf"
-				"EffectAttachType" "follow_origin"
-
-				"Duration" "%trauma_duration"
-
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%trauma_reduction"
-				}
+				"var_type" "FIELD_INTEGER"
+				"value" "30" 				// chance increase, don't forget adjust addon_english if changing value
+			}
+		}
+	}
+	
+	"stronk_stomp_talent_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "25" 				// extra damage per target, don't forget adjust addon_english if changing value
+			}
+		}
+	}
+	
+	"stronk_stomp_talent_cooldown"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "5" 				// irrelevant - actual value in ability special, if changing value, update addon_english manually! %value% does not work
+			}
+		}
+	}
+	
+	"stronk_stomp_talent_stunduration"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "1.5" 				// extra stun duration, don't forget adjust addon_english if changing value
 			}
 		}
 	}
@@ -2500,6 +2495,23 @@
 			}
 		}
 	}
+	
+	"stronk_unstoppable_talent_hpbasedstacks"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "10" 				// missing hp % for extra stack, change addon_english if changing value
+			}
+		}
+	}
 
 	"stronk_great_shockwave"
 	{
@@ -2611,6 +2623,23 @@
 							"Damage" "%burn_damage"
 						}
 				}
+			}
+		}
+	}
+	
+	"stronk_great_shockwave_talent_ministun"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "0.1" 				// stun duration on explosion
 			}
 		}
 	}
@@ -4586,7 +4615,8 @@
 
 	"lich_frostball"
 	{
-		"BaseClass" "ability_datadriven"
+		"BaseClass" "ability_lua"
+		"ScriptFile" "scripts/vscripts/heroes/hero_frost/frostball.lua"
 
 		"AbilityTextureName" "frostball"
 
@@ -4600,8 +4630,6 @@
 		"AbilityCastRange" "700"
 		"AbilityCooldown" "18 16 14 12"
 		"AbilityManaCost" "120 140 160 180"
-
-		"AoERadius"						"%radius"
 
 		"AbilitySpecial"
 		{
@@ -4624,85 +4652,46 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"radius" "128"
+				"LinkedSpecialBonus" "lich_frostball_talent_radius"
+			}
+			"05"
+			{
+				"var_type" "FIELD_INTEGER"
+				"radius_talent_bonus" "222"
 			}
 		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Ability.FrostNova"
-				"Target" "CASTER"
-			}
-
-			"TrackingProjectile"
-			{
-				"Source" "CASTER"
-				"Target" "TARGET"
-				"EffectName" "particles/units/heroes/hero_frost/frostball.vpcf"
-				"Dodgeable" "1"
-				 "ProvidesVision" "1"
-   				 "VisionRadius" "%radius"
-				"MoveSpeed" "%speed"
-				"SourceAttachment" "DOTA_PROJECTILE_ATTACHMENT_HITLOCATION"
-			}
-		}
-
-		"OnProjectileHitUnit"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_Lich.ChainFrostImpact.Hero"
-				"Target" "TARGET"
-			}
-
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center" "PROJECTILE"
-					"Radius" 	"%radius"
-					"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				
-				"Action"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_frostball_root"
-						"Target" "TARGET"
-					}
-				}
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_frostball_root"
-			{
-				"IsDebuff" "1"
-				"IsPurgable"		"1"
-				"Duration" "%duration"
-
-				"EffectName"		"particles/units/heroes/hero_frost/abzero_debuff.vpcf"
+	}
+	
+	"lich_frostball_talent_radius"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
 		
-				"States"
-				{
-					"MODIFIER_STATE_ROOTED"	"MODIFIER_STATE_VALUE_ENABLED"
-					"MODIFIER_STATE_INVISIBLE"	"MODIFIER_STATE_VALUE_DISABLED"
-					"MODIFIER_STATE_DISARMED"		"MODIFIER_STATE_VALUE_ENABLED"
-				}
-
-				"OnCreated"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-				}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "222" 				// tooltip only, actual value in ability, update addon_english manually! %value% does not work
+			}
+		}
+	}
+	
+	"lich_frostball_talent_damage_per_int"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "1" 				// damage per int, update addon_english manually! %value% does not work
 			}
 		}
 	}

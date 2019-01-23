@@ -15,6 +15,15 @@ function UpdateStacks( keys )
 	for k, v in pairs( units ) do
 		new_stacks = new_stacks + 3
 	end
+	
+	local extraHpBasedStacksTalent = caster:FindAbilityByName("stronk_unstoppable_talent_hpbasedstacks")
+	if extraHpBasedStacksTalent and extraHpBasedStacksTalent:GetLevel() > 0 then
+		local health = caster:GetHealth()
+		local maxHealth = caster:GetMaxHealth()
+		local missingHpPercentage = 1 - (health / maxHealth)
+		local missingPercentsForStack = extraHpBasedStacksTalent:GetSpecialValueFor("value") / 100
+		new_stacks = new_stacks + math.floor(missingHpPercentage / missingPercentsForStack)
+	end
 
 	if not caster:HasModifier( modifier ) and new_stacks > 0 then
 		ability:ApplyDataDrivenModifier( caster, caster, modifier, {} )

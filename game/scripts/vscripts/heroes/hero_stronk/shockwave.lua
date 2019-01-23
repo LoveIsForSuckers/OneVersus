@@ -19,6 +19,12 @@ function Shockwave( keys )
 	local dummy = CreateUnitByName( "npc_dummy_unit", casterLoc, false, caster, caster, caster:GetTeam() )
 	ability:ApplyDataDrivenModifier( caster, dummy, dummyModifierName, {} )
 	dummy.explosionsMade = 0
+	
+	local ministunDuration = 0
+	local ministunTalent = caster:FindAbilityByName("stronk_great_shockwave_talent_ministun")
+	if ministunTalent and ministunTalent:GetLevel() > 0 then
+		ministunDuration = ministunTalent:GetSpecialValueFor("value")
+	end
 
 	Timers:CreateTimer( function ()
 		local newVector = GetGroundPosition( forwardVec * distance, caster )
@@ -39,6 +45,9 @@ function Shockwave( keys )
 		for i, unit in ipairs(nearbyEnemies) do
 			ApplyDamage( { victim = unit, attacker = caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = ability } )
 			ability:ApplyDataDrivenModifier(caster, unit, burnModifierName, {} )
+			if ministunDuration > 0 then
+				unit:AddNewModifier(caster, ability, "modifier_stunned", { duration = ministunDuration })
+			end
 		end
 
 		-- End Shit Here
