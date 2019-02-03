@@ -4,13 +4,17 @@ function OnOrbImpact( keys )
 	local ability = keys.ability
 	local modifier = keys.Modifier
 	local modifier_counter = keys.ModifierCount
-	local maxstacks = ability:GetLevelSpecialValueFor("max_stacks_from_attack",ability:GetLevel()-1)
 	
-	if caster:IsIllusion() then return nil end
 	if target:IsBuilding() then return nil end
 	if target:IsMagicImmune() then return nil end
 	
-	if caster:GetTeam() ~= target:GetTeam() and caster:CanEntityBeSeenByMyTeam(target) then
+	if caster:GetTeam() ~= target:GetTeam() then
+		local maxstacks = ability:GetLevelSpecialValueFor("max_stacks_from_attack",ability:GetLevel()-1)
+		local max_stacks_from_attack_talent = caster:FindAbilityByName("sand_neurotoxin_talent_max_stacks_from_attack")
+		if max_stacks_from_attack_talent and max_stacks_from_attack_talent:GetLevel() > 0 then
+			maxstacks = maxstacks + max_stacks_from_attack_talent:GetSpecialValueFor("value")
+		end
+	
 		local currentstack = 0
 
 		if target:HasModifier( modifier_counter ) then
@@ -18,13 +22,10 @@ function OnOrbImpact( keys )
 		end
 		
 		if currentstack < maxstacks then
-			target:SetModifierStackCount( modifier_counter, ability, currentstack + 1 ) 
 			ability:ApplyDataDrivenModifier( caster, target, modifier, {} )
 			ability:ApplyDataDrivenModifier( caster, target, modifier_counter, {} )
 			target:SetModifierStackCount( modifier_counter, caster, currentstack + 1 )
 		else
-			target:SetModifierStackCount( modifier_counter, ability, maxstacks )
-			-- ability:ApplyDataDrivenModifier( caster, target, modifier_counter, {} )
 			target:SetModifierStackCount( modifier_counter, caster, maxstacks )
 		end
 	end
@@ -36,9 +37,15 @@ function DoubleStacks( keys )
 	local ability = keys.ability
 	local modifier = keys.Modifier
 	local modifier_counter = keys.ModifierCount
-	local maxstacks = ability:GetLevelSpecialValueFor("maxstacks",ability:GetLevel()-1)
 	
+	if unit:IsBuilding() then return nil end
 	if unit:IsMagicImmune() then return nil end
+	
+	local maxstacks = ability:GetLevelSpecialValueFor("maxstacks",ability:GetLevel()-1)
+	local max_stacks_talent = caster:FindAbilityByName("sand_neurotoxin_talent_max_stacks")
+	if max_stacks_talent and max_stacks_talent:GetLevel() > 0 then
+		maxstacks = maxstacks + max_stacks_talent:GetSpecialValueFor("value")
+	end
 	
 	local currentstack = 0
 

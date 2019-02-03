@@ -4491,6 +4491,7 @@
 			{
 				"var_type"					"FIELD_FLOAT"
 				"duration"					"3.5 4.0 4.5"
+				"LinkedSpecialBonus"		"lich_abzero_talent_duration"
 			}
 			"03"
 			{
@@ -4515,12 +4516,11 @@
 			"RunScript"
 			{
 				"ScriptFile"    "heroes/hero_frost/abzero.lua"
-		    		"Function"      "AbZeroParticle"
+		    	"Function"      "AbZeroParticle"
 				"EffectName" "particles/units/heroes/hero_frost/abzero_full.vpcf"
 				"GroundEffect" "particles/units/heroes/hero_frost/abzero_ground_scatter.vpcf"
 				"Target"			"POINT"
 				"Delay" "%delay"
-				"Duration" "%duration"
 				"Radius" "%radius"	
 			}
 
@@ -4533,19 +4533,6 @@
 					{
 						"EffectName"		"Hero_Jakiro.IcePath"
 						"Target"			"CASTER"
-					}
-				}
-			}
-			
-			"DelayedAction"
-			{
-				"Delay"		"%delay"
-				"Action"
-				{
-					"RunScript"
-					{
-						"ScriptFile"		"heroes/hero_frost/abzero.lua"
-						"Function"			"DestroyParticle"
 					}
 				}
 			}
@@ -4609,6 +4596,23 @@
 						"Damage"	"%damage"
 					}
 				}
+			}
+		}
+	}
+	
+	"lich_abzero_talent_duration"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "1.5" 				// if changing value, update addon_english manually! %value% does not work
 			}
 		}
 	}
@@ -4802,6 +4806,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"from_max_mana_damage" "3 5 7 9"
+				"LinkedSpecialBonus" "lich_deep_freeze_talent_from_max_mana_damage"
 				"CalculateSpellDamageTooltip"   "1"
 			}
 		}
@@ -4828,6 +4833,23 @@
 			}
 		}
 	}
+	
+	"lich_deep_freeze_talent_from_max_mana_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "3" 				// bonus damage pct, if changing value, update addon_english manually! %value% does not work
+			}
+		}
+	}
 
 	"neurotoxin"
 	{
@@ -4844,13 +4866,14 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"maxstacks" "10"
+				"maxstacks" "7"
 			}
 
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
 				"max_stacks_from_attack" "1 2 3 4"
+				"LinkedSpecialBonus" "sand_neurotoxin_talent_max_stacks_from_attack"
 			}
 
 			"03"
@@ -4942,6 +4965,40 @@
 				}	
 			}
 		}	
+	}
+	
+	"sand_neurotoxin_talent_max_stacks_from_attack"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "3" 				// bonus stacks from attack, if changing value, update addon_english manually! %value% does not work
+			}
+		}
+	}
+	
+	"sand_neurotoxin_talent_max_stacks"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "7" 				// bonus stacks, if changing value, update addon_english manually! %value% does not work
+			}
+		}
 	}
 
 	"sandstorm"
@@ -5173,7 +5230,6 @@
 				"ScriptFile" "scripts/vscripts/heroes/hero_sand/sands_of_time.lua"
 				"Function" "RememberState"
 			}
-
 			
 			"FireSound"
 			{
@@ -5254,14 +5310,14 @@
 
 	"crushing_prison"
 	{
-		"BaseClass" "ability_datadriven"
-
+		"BaseClass" "ability_lua"
+		"ScriptFile" "scripts/vscripts/heroes/hero_sand/crushing_prison.lua"
+		
 		"precache"
 		{
 			"particle" "particles/units/heroes/hero_sand/crushing_prison.vpcf"
 			"model" "models/heroes/sand_king/sand_king_spike.vmdl"
 		}
-
 		
 		"AbilityType" 			"DOTA_ABILITY_TYPE_ULTIMATE"
 		"FightRecapLevel"				"2"
@@ -5305,91 +5361,54 @@
 			"04"
 			{
 				"var_type" "FIELD_INTEGER"
-				"damage_tooltip" "100 140 180"
+				"radius" "160"
 			}
-
+			
 			"05"
 			{
 				"var_type" "FIELD_INTEGER"
-				"radius" "160"
+				"radius_talent_bonus" "160"
 			}
-
+			
 			"06"
 			{
 				"var_type" "FIELD_INTEGER"
-				"interval" "1"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Ability.SandKing_BurrowStrike"
-				"Target" "TARGET"
-			}
-
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_crushing_prison"
-				"Target" "TARGET"
-			}
-
-			"FireSound"
-			{
-				"EffectName" "Ability.SandKing_Epicenter"
-				"Target" "TARGET"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_crushing_prison"
-			{
-				"IsDebuff" "1"
-				"Duration" "%duration"
-				
-				"EffectName" "particles/units/heroes/hero_sand/crushing_prison.vpcf"
-				"EffectAttachType" "follow_origin"
-
-				"OverrideAnimation" "ACT_DOTA_FLAIL"
-
-				"ThinkInterval" "%interval"
-				"OnIntervalThink"
-				{
-					"ActOnTargets"
-					{
-						"Target"
-						{
-							"Center" "TARGET"
-							"Radius" 	"%radius"
-							"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
-							"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-						}
-	
-						"Action"
-						{
-							"Damage"
-							{
-								"Type" "DAMAGE_TYPE_MAGICAL"
-								"Target" "TARGET"
-								"Damage" "%damage_per_tick"								
-							}	
-						}
-					}
-				}
-
-				"States"
-				{
-					"MODIFIER_STATE_STUNNED" "MODIFIER_STATE_VALUE_ENABLED"
-				}
-
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS" "%magic_resist"
-				}
+				"cooldown_reduction_talent" "60"
 			}
 		}
 	}
 	
+	"sand_crushing_prison_talent_radius"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "160" 				// tooltip only, actual value in ability, update addon_english manually! %value% does not work
+			}
+		}
+	}
+	
+	"sand_crushing_prison_talent_cooldown"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "60" 				// tooltip only, actual value in ability, update addon_english manually! %value% does not work
+			}
+		}
+	}
 }

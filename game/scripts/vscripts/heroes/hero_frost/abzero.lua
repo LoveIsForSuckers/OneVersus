@@ -2,16 +2,19 @@ function AbZeroParticle ( keys )
 	local caster = keys.caster
 	local ability = keys.ability
 	local radius = keys.Radius
-	local duration = keys.Duration
 	local delay = keys.Delay
 	local origin = keys.target_points[1]
 	local particleName = keys.EffectName
 	local groundParticle = keys.GroundEffect
 	
+	local duration = ability:GetLevelSpecialValueFor("duration", ability:GetLevel() - 1)
+	local durationTalent = caster:FindAbilityByName("lich_abzero_talent_duration")
+	if durationTalent and durationTalent:GetLevel() > 0 then
+		duration = duration + durationTalent:GetSpecialValueFor("value")
+	end
+	
 	ability.abzero_start = GameRules:GetGameTime() + delay
 	ability.abzero_end = GameRules:GetGameTime() + delay + duration
-	
-	
 
 	ability.origin = origin
 
@@ -20,6 +23,10 @@ function AbZeroParticle ( keys )
 
 	ParticleManager:SetParticleControl( pfxGround, 1, origin )
 	ParticleManager:SetParticleControl( pfx, 1, origin )
+	ParticleManager:SetParticleControl( pfx, 2, Vector(duration, duration, duration))
+	ParticleManager:SetParticleControl( pfxGround, 2, Vector(duration, duration, duration))
+	ParticleManager:SetParticleControl( pfx, 3, Vector(1,1,1))
+	ParticleManager:SetParticleControl( pfxGround, 3, Vector(1,1,1))
 
 	ability.pfx = pfx
 

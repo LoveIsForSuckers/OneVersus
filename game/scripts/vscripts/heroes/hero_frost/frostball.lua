@@ -57,7 +57,7 @@ function lich_frostball:OnProjectileHit( target, location )
 		if damagePerIntTalent and damagePerIntTalent:GetLevel() > 0 then
 			local damageIntFactor = damagePerIntTalent:GetSpecialValueFor("value")
 			damage = damage + (caster:GetIntellect() * damageIntFactor)
-			SendOverheadEventMessage( nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE , target, damage, attacker )
+			SendOverheadEventMessage( nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE , target, damage, caster )
 		end
 
 		local enemies = FindUnitsInRadius( caster:GetTeamNumber(), target:GetOrigin(), target, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
