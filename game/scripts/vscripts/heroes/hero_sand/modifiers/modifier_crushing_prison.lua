@@ -63,8 +63,10 @@ function modifier_crushing_prison:OnIntervalThink()
 		
 		local damage_type = ability:GetAbilityDamageType()
 		local damage = ability:GetLevelSpecialValueFor("damage_per_tick", ability:GetLevel() - 1)
-		
-		-- insert some your talents here boi
+		local damageTalent = caster:FindAbilityByName("sand_crushing_prison_talent_damage")
+		if damageTalent and damageTalent:GetLevel() > 0 then
+			damage = damage + damageTalent:GetSpecialValueFor("value")
+		end
 		
 		local nearbyEnemies = FindUnitsInRadius(caster:GetTeam(), target:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
 		for i, unit in ipairs(nearbyEnemies) do

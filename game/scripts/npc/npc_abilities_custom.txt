@@ -510,7 +510,6 @@
 				}
 			}
 		}
-		
 	}
 
 	"lion_dash"
@@ -555,12 +554,19 @@
 			"04"
 			{
 				"var_type" "FIELD_INTEGER"
-				"creep_dmg" "100 140 180 220"
+				"ms_slow_talent" "-30"
 			}
 		}
 
 		"OnSpellStart"
 		{
+			"RunScript"
+			{
+				"ScriptFile" "scripts/vscripts/heroes/hero_lion/dash.lua"
+				"Function" "on_spell_start"
+				"Target" "TARGET"
+			}
+		
 			"FireSound"
 			{
 				"EffectName" "Hero_Lion.Voodoo"
@@ -601,12 +607,6 @@
 		"OnProjectileHitUnit"
 		{
 			"DeleteOnHit" "0"
-			
-			"FireSound"
-			{
-				"EffectName"	"Hero_Lion.ImpaleHitTarget"
-				"Target"		"CASTER"
-			}
 
 			"Knockback"
 			{
@@ -616,27 +616,12 @@
 				"Distance" "200"
 				"Height" "200"
 			}
-
-			"Damage"
+			
+			"RunScript"
 			{
-				"Target"
-				{
-					"Center" "TARGET"
-					"Types" "DOTA_UNIT_TARGET_HERO"
-				}
-				"Type" "DAMAGE_TYPE_MAGICAL"
-				"Damage" "%hero_dmg"
-			}
-
-			"Damage"
-			{
-				"Target"
-				{
-					"Center" "TARGET"
-					"Types" "DOTA_UNIT_TARGET_BASIC"
-				}
-				"Type" "DAMAGE_TYPE_MAGICAL"
-				"Damage" "%creep_dmg"
+				"ScriptFile" "scripts/vscripts/heroes/hero_lion/dash.lua"
+				"Function" "affect_target"
+				"Target" "TARGET"
 			}
 		}
 
@@ -645,7 +630,7 @@
 			"RunScript"
 			{
 				"ScriptFile" "scripts/vscripts/heroes/hero_lion/dash.lua"
-				"Function" "dash_teleport"
+				"Function" "on_projectile_finish"
 				"Target" "POINT"
 			}
 
@@ -667,6 +652,51 @@
 					"MODIFIER_STATE_STUNNED"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
+			
+			"dash_talent_debuff"
+			{
+				"IsDebuff" "1"
+				"IsPurgable" "1"
+				
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%ms_slow_talent"
+				}
+			}
+		}
+	}
+	
+	"lion_dash_talent_slow"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "3" 				// duration, for effect strength check ability, if changing value, update addon_english manually!
+			}
+		}
+	}
+	
+	"lion_dash_talent_heal_per_target"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "40" 				// heal per target, for effect strength check ability, if changing value, update addon_english manually!
+			}
 		}
 	}
 
@@ -684,6 +714,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"max_stacks" "12 24 36 48"
+				"LinkedSpecialBonus" "lion_passive_talent_max_stacks"
 			}
 			"02"
 			{
@@ -699,11 +730,6 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"resist_bonus" "1"
-			}
-			"05"
-			{
-				"var_type" "FIELD_INTEGER"
-				"stacks_per_spell" "1"
 			}
 		}
 
@@ -722,7 +748,17 @@
 			"modifier_lion_passive"
 			{
 				"Attributes" "MODIFIER_ATTRIBUTE_MULTIPLE | MODIFIER_ATTRIBUTE_PERMANENT"
-
+				
+				"OnHeroKilled"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/heroes/hero_lion/passive.lua"
+						"Function" "try_gain_stack_from_hero_killed"
+						"modifier" "modifier_lion_passive"
+					}
+				}
+				
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS" "%resist_bonus"
@@ -754,10 +790,44 @@
 					"RunScript"
 					{
 						"ScriptFile" "scripts/vscripts/heroes/hero_lion/passive.lua"
-						"Function" "gain_stack"
+						"Function" "gain_stack_from_cast"
 						"modifier" "modifier_lion_passive"
 					}
 				}
+			}
+		}
+	}
+	
+	"lion_passive_talent_max_stacks"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "12" 				// max stacks bonus, if changing value, update addon_english manually!
+			}
+		}
+	}
+	
+	"lion_passive_talent_stacks_for_kill"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "6" 				// stacks for kill, if changing value, update addon_english manually!
 			}
 		}
 	}
@@ -797,6 +867,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"arrows_dmg_per_charge" "4 5 6 7"
+				"LinkedSpecialBonus" "lion_unleash_talent_dmg_per_stacks"
 				"CalculateSpellDamageTooltip"   "1"
 			}
 			"03"
@@ -824,7 +895,7 @@
 		"OnProjectileHitUnit"
 		{
 			"DeleteOnHit" "1"
-				
+			
 			"FireSound"
 			{
 				"EffectName" "Hero_Lion.FingerOfDeathImpact"
@@ -837,6 +908,23 @@
 				"Function" "projectile_hit"
 				"modifier" "modifier_lion_passive"
 				"base_ability" "lion_passive"
+			}
+		}
+	}
+	
+	"lion_unleash_talent_dmg_per_stacks"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "7" 				// dmg per stack bonus, if changing value, update addon_english manually!
 			}
 		}
 	}
@@ -2639,7 +2727,7 @@
 			"01"
 			{
 				"var_type" "FIELD_FLOAT"
-				"value" "0.1" 				// stun duration on explosion
+				"value" "0.15" 				// stun duration on explosion
 			}
 		}
 	}
@@ -5356,6 +5444,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"damage_per_tick" "25 35 45"
+				"LinkedSpecialBonus" "sand_crushing_prison_talent_damage"
 			}
 
 			"04"
@@ -5408,6 +5497,23 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"value" "60" 				// tooltip only, actual value in ability, update addon_english manually! %value% does not work
+			}
+		}
+	}
+	
+	"sand_crushing_prison_talent_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "75" 				// update addon_english manually! %value% does not work
 			}
 		}
 	}

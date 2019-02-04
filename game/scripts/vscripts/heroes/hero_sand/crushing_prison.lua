@@ -16,7 +16,7 @@ function crushing_prison:GetCooldown(level)
 	
 	local caster = self:GetCaster()
 	if caster ~= nil then
-		if caster:HasModifier("sand_crushing_prison_talent_cooldown") then
+		if caster:HasModifier("modifier_crushing_prison_talent_cooldown") then
 			cooldown = cooldown - self:GetSpecialValueFor("cooldown_reduction_talent")
 		end
 	end
