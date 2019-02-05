@@ -1546,15 +1546,14 @@
 
 	"venge_energized_blow"
 	{
-		// NEVER MISSES
-
 		"precache"
 		{
 			"soundfile"		"soundevents/custom_sounds.vsndevts"
 			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_stormspirit.vsndevts"		
 		}
 
-		"BaseClass" "ability_datadriven"
+		"BaseClass" "ability_lua"
+		"ScriptFile" "scripts/vscripts/heroes/hero_venge/energized_blow.lua"
 		
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName" "energized"
@@ -1588,74 +1587,29 @@
 				"minusarmor" "-2 -3 -4 -5"
 			}
 		}
-
-		"OnSpellStart"
+	}
+	
+	"venge_energized_blow_talent_ricochet"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
 		{
-			"FireSound"
+			"01"
 			{
-				"EffectName" "Hero_StormSpirit.ElectricVortexCast"
-				"Target" "CASTER"
+				"var_type" "FIELD_INTEGER"
+				"value" "350" 				// ricochet radius, update addon_english if changing value
 			}
 			
-			"ApplyModifier"
+			"02"
 			{
-				"ModifierName" "modifier_energized_blow"
-				"Target" "CASTER"
+				"var_type" "FIELD_INTEGER"
+				"max_targets" "4" 			// max_ricochet_count + 1, update addon_english if changing value
 			}
 		}
-
-		"Modifiers"
-		{
-			"modifier_energized_blow"
-			{
-				"EffectName" "particles/units/heroes/hero_venge/energized_buff.vpcf"
-				"EffectAttachType" "follow_origin"
-
-				"States"
-				{
-					"MODIFIER_STATE_CANNOT_MISS" "MODIFIER_STATE_VALUE_ENABLED"
-				}
-
-				"OnAttackLanded"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_energized_blow_slow"
-						"Target" "TARGET"
-					}
-
-					"FireSound"
-					{
-						// Hero_StormSpirit.StaticRemnantExplode
-						"EffectName" "OneVersus.Ptoom"
-						"Target" "TARGET"
-					}
-
-					"RemoveModifier"
-					{
-						"ModifierName" "modifier_energized_blow"
-						"Target" "CASTER"
-					}
-				}
-			}
-
-			"modifier_energized_blow_slow"
-			{
-				"IsDebuff" "1"
-				"Duration" "%duration"
-				
-				"EffectName" "particles/units/heroes/hero_venge/energized_hit.vpcf"
-				"EffectAttachType" "follow_origin"
-
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%ms_slow"
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%as_slow"
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%minusarmor"
-				}
-			}
-		}
-		
 	}
 
 	"venge_killstreak"
