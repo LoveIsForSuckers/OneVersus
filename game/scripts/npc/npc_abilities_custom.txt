@@ -1460,6 +1460,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"as_boost" "90 120 150 180"
+				"LinkedSpecialBonus" "venge_resonance_talent_as_boost"
 			}
 
 			"02"
@@ -1473,6 +1474,12 @@
 				"var_type" "FIELD_FLOAT"
 				"disarm" "2.0 2.6 3.3 4.0"
 			}
+			
+			"04"
+			{
+				"var_type" "FIELD_INTEGER"
+				"as_boost_talent_bonus" "120" // see talent
+			}
 		}
 
 		"OnSpellStart"
@@ -1483,17 +1490,11 @@
 				"EffectAttachType"  "follow_origin"
 				"Target" "CASTER"
 			}
-
-			"FireSound"
+			
+			"RunScript"
 			{
-				"EffectName" "OneVersus.Resonance_Long"
-				"Target" "CASTER"
-			}
-
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_resonance"
-				"Target" "CASTER"
+				"ScriptFile" "scripts/vscripts/heroes/hero_venge/resonance.lua"
+				"Function" "apply_effects"
 			}
 		}
 
@@ -1503,7 +1504,6 @@
 			{
 				"IsBuff" "1"
 				"IsPurgable" "1"
-				"Duration" "%duration"
 
 				"Properties"
 				{
@@ -1526,6 +1526,18 @@
 					}
 				}
 			}
+			
+			"modifier_resonance_talent_buff"
+			{
+				"IsHidden" "1"
+				"IsBuff" "1"
+				"IsPurgable" "1"
+
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%as_boost_talent_bonus"
+				}
+			}
 
 			"modifier_resonance_disarm"
 			{
@@ -1543,6 +1555,23 @@
 			}
 		}
 	}
+	
+	"venge_resonance_talent_as_boost"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "120" 				// tooltip only, see ability for values, update addon_english if changing value
+			}
+		}
+	}
 
 	"venge_energized_blow"
 	{
@@ -1550,6 +1579,7 @@
 		{
 			"soundfile"		"soundevents/custom_sounds.vsndevts"
 			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_stormspirit.vsndevts"		
+			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_phantom_lancer.vsndevts"
 		}
 
 		"BaseClass" "ability_lua"
@@ -1611,6 +1641,35 @@
 			}
 		}
 	}
+	
+	"venge_energized_blow_talent_illusion"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "5" 				// illusion duration, update addon_english if changing value
+			}
+			
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"illusion_outgoing_damage" "-66" 		// update addon_english if changing value
+			}
+			
+			"03"
+			{
+				"var_type" "FIELD_INTEGER"
+				"illusion_incoming_damage" "100" 		// update addon_english if changing value
+			}
+		}
+	}
 
 	"venge_killstreak"
 	{
@@ -1635,6 +1694,7 @@
 			{
 				"var_type" "FIELD_FLOAT"
 				"duration" "20.0"
+				"LinkedSpecialBonus" "venge_killstreak_talent_duration"
 			}
 		}
 
@@ -1657,14 +1717,12 @@
 
 			"modifier_killstreak_counter"
 			{
-				"Duration" "%duration"
 				"Passive" "0"
 				"IsHidden" "0"
 			}
 	
 			"modifier_killstreak_buff"
 			{
-				"Duration" "%duration"
 				"Passive" "0"
 				"IsHidden" "1"
 				"Attributes" "MODIFIER_ATTRIBUTE_MULTIPLE"
@@ -1683,6 +1741,23 @@
 						"Function" "remove_stack"
 					}
 				}
+			}
+		}
+	}
+	
+	"venge_killstreak_talent_duration"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "20.0" 				// extra duration, update addon_english if changing value
 			}
 		}
 	}
@@ -1724,6 +1799,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"damage" "175 235 295"
+				"LinkedSpecialBonus" "venge_warpstrike_talent_damage"
 			}
 
 			"03"
@@ -1739,10 +1815,11 @@
 			{
 				"Target" "TARGET"
 			}
-
-			"Stun"
+			
+			"RunScript"
 			{
-				"Duration" "%duration"
+				"ScriptFile" "scripts/vscripts/heroes/hero_venge/warpstrike.lua"
+				"Function" "apply_effects"
 				"Target" "TARGET"
 			}
 
@@ -1770,16 +1847,59 @@
 						"EffectName" "Hero_StormSpirit.Overload"
 						"Target" "TARGET"
 					}
-
-					"Damage"
-					{
-						"Target" "TARGET"
-						"Type" "DAMAGE_TYPE_PURE"
-						"Damage" "%damage"
-					}
 				}
 			}
-			
+		}
+		
+		"Modifiers"
+		{
+			"modifier_warpstrike_stun"
+			{
+				"IsDebuff" "1"
+				"IsPurgable" "0"
+				
+				"EffectName" "particles/generic_gameplay/generic_stunned.vpcf"
+				"EffectAttachType" "follow_overhead"
+				
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED" "MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+	}
+	
+	"venge_warpstrike_talent_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "125" 				// extra damage, update addon_english if changing value
+			}
+		}
+	}
+	
+	"venge_warpstrike_talent_resonance_synergy"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "1" 				// irrelevant
+			}
 		}
 	}
 

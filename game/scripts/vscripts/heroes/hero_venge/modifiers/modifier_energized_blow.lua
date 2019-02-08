@@ -51,6 +51,11 @@ function modifier_energized_blow:OnAttackLanded(keys)
 				local duration = ability:GetLevelSpecialValueFor("duration", ability:GetLevel() - 1)
 				target:AddNewModifier(caster, ability, "modifier_energized_blow_slow", { duration = duration })
 				
+				local illusion_talent = caster:FindAbilityByName("venge_energized_blow_talent_illusion")
+				if illusion_talent and illusion_talent:GetLevel() > 0 then
+					ability:MakeIllusion(illusion_talent, target:GetOrigin(), target)
+				end
+				
 				local ricochet_talent = caster:FindAbilityByName("venge_energized_blow_talent_ricochet")
 				if ricochet_talent and ricochet_talent:GetLevel() > 0 then
 					if not ability.processed_ricochet_targets then

@@ -25,6 +25,11 @@ function venge_energized_blow:OnProjectileHit( target, location )
 		local duration = self:GetLevelSpecialValueFor("duration", self:GetLevel() - 1)
 		target:AddNewModifier(caster, self, "modifier_energized_blow_slow", { duration = duration })
 		
+		local illusion_talent = caster:FindAbilityByName("venge_energized_blow_talent_illusion")
+		if illusion_talent and illusion_talent:GetLevel() > 0 then
+			self:MakeIllusion(illusion_talent, location, target)
+		end
+		
 		local damage = caster:GetAttackDamage()
 		ApplyDamage({ victim = target, attacker = caster, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL, ability = self })
 		
@@ -88,4 +93,61 @@ function venge_energized_blow:ClearRicochetData()
 	end
 	
 	self.processed_ricochet_target_count = 0
+end
+
+function venge_energized_blow:MakeIllusion(illusion_talent, origin, target)
+	local caster = self:GetCaster()
+	local player = caster:GetPlayerID()
+	local unit_name = caster:GetUnitName()
+	
+	local duration = illusion_talent:GetSpecialValueFor("value")
+	local outgoingDamage = illusion_talent:GetSpecialValueFor( "illusion_outgoing_damage")
+	local incomingDamage = illusion_talent:GetSpecialValueFor( "illusion_incoming_damage")
+
+	target:EmitSound("Hero_PhantomLancer.SpiritLance.Impact")
+	
+	local illusion = CreateUnitByName(unit_name, origin, true, caster, nil, caster:GetTeamNumber())
+	
+	illusion:SetPlayerID(player)
+	illusion:SetControllableByPlayer(player, true)
+	illusion:SetOwner(caster:GetPlayerOwner())
+	
+	-- Level Up the unit to the casters level
+	local casterLevel = caster:GetLevel()
+	for i=1,casterLevel-1 do
+		illusion:HeroLevelUp(false)
+	end
+
+	-- Set the skill points to 0 and learn the skills of the caster
+	illusion:SetAbilityPoints(0)
+	for abilitySlot=0,15 do
+		local ability = caster:GetAbilityByIndex(abilitySlot)
+		if ability ~= nil then 
+			local abilityLevel = ability:GetLevel()
+			local abilityName = ability:GetAbilityName()
+			local illusionAbility = illusion:FindAbilityByName(abilityName)
+			illusionAbility:SetLevel(abilityLevel)
+		end
+	end
+
+
+	-- Recreate the items of the caster
+	for itemSlot=0,5 do
+		local item = caster:GetItemInSlot(itemSlot)
+		if item ~= nil then
+			local itemName = item:GetName()
+			local newItem = CreateItem(itemName, illusion, illusion)
+			illusion:AddItem(newItem)
+		end
+	end
+
+	illusion:SetHealth(caster:GetHealth())
+	illusion:SetMana(caster:GetMana())
+	
+	-- Set the unit as an illusion
+	-- modifier_illusion controls many illusion properties like +Green damage not adding to the unit damage, not being able to cast spells and the team-only blue particle
+	illusion:AddNewModifier(caster, illusion_talent, "modifier_illusion", { duration = duration, outgoing_damage = outgoingDamage, incoming_damage = incomingDamage })
+	
+	-- Without MakeIllusion the unit counts as a hero, e.g. if it dies to neutrals it says killed by neutrals, it respawns, etc.
+	illusion:MakeIllusion()
 end

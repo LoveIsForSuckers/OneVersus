@@ -64,12 +64,12 @@
 		"Ability6" "venge_warpstrike"
 		"Ability10" "special_bonus_mp_regen_3"
 		"Ability11" "special_bonus_attack_range_125"
-		"Ability12" "venge_energized_blow_talent_ricochet"
-		"Ability13" ""
-		"Ability14" ""
-		"Ability15" ""
-		"Ability16" ""
-		"Ability17" ""
+		"Ability12" "venge_killstreak_talent_duration"
+		"Ability13" "venge_warpstrike_talent_damage"
+		"Ability14" "venge_energized_blow_talent_ricochet"
+		"Ability15" "venge_warpstrike_talent_resonance_synergy"
+		"Ability16" "venge_energized_blow_talent_illusion"
+		"Ability17" "venge_resonance_talent_as_boost"
 	}
 
 	"npc_dota_hero_tb"
