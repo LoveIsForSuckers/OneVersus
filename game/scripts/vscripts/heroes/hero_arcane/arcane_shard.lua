@@ -22,7 +22,13 @@ function WardAttacked( keys )
 	local attacker = keys.attacker
 	local damage = keys.Damage
 	local ability = keys.ability
+	local caster = ability:GetCaster()
+	
 	local hero_attack_damage = ability:GetLevelSpecialValueFor("hero_attack_damage", ability:GetLevel() - 1 )
+	local damage_reduction_talent = caster:FindAbilityByName("arcane_shard_talent_hero_attack_damage_reduction")
+	if damage_reduction_talent and damage_reduction_talent:GetLevel() > 0 then
+		hero_attack_damage = hero_attack_damage - damage_reduction_talent:GetSpecialValueFor("hero_attack_damage_reduction")
+	end
 
 	if attacker:IsRealHero() then
 		target.attack_counter = target.attack_counter - hero_attack_damage
@@ -105,20 +111,6 @@ function TestFire( keys )
 	projectile = ProjectileManager:CreateLinearProjectile(proj_table)
 end
 
-function ForceField( keys )
-	local caster = keys.caster
-	local ability = keys.ability
-	local radius = ability:GetLevelSpecialValueFor("shard_check_radius", (ability:GetLevel() - 1) )
-	local modifier = keys.Modifier
-
-	local units = FindUnitsInRadius( caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_ALL, 0, 0, false )
-	for k, v in pairs( units ) do
-		if v:GetUnitName() == "npc_arcane_shard" then
-			ability:ApplyDataDrivenModifier(caster, v, modifier, {})
-		end
-	end
-end
-
 function EnergyOverflow( keys )
 	local caster = keys.caster
 	local target = keys.target
@@ -129,6 +121,14 @@ function EnergyOverflow( keys )
 	local modifier = keys.Modifier
 
 	ability:ApplyDataDrivenModifier(caster, target, modifier, {})
+	
+	if target:GetTeamNumber() ~= caster:GetTeamNumber() then
+		local silence_talent = caster:FindAbilityByName("arcane_energy_overflow_talent_silence_enemies")
+		if silence_talent and silence_talent:GetLevel() > 0 then
+			ability:ApplyDataDrivenModifier(caster, target, "modifier_energy_overflow_silence_talent", {})
+		end
+	end
+	
 	local zap = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, caster)
 	ParticleManager:SetParticleControl(zap, 1, target:GetAbsOrigin())
 
@@ -149,10 +149,15 @@ function EnergyOverflowTick( keys )
 
 	local particle_buff = keys.ParticleBuff
 	local particle_debuff = keys.ParticleDebuff
-
+	
 	local mana_base = ability:GetLevelSpecialValueFor("mana_restore_base", (ability:GetLevel() - 1) )
 	local mana_per_int = ability:GetLevelSpecialValueFor("mana_restore_per_int_bonus", (ability:GetLevel() - 1) )
 	local duration = ability:GetLevelSpecialValueFor("duration", (ability:GetLevel() - 1) )
+	
+	local mana_per_int_talent = caster:FindAbilityByName("arcane_energy_overflow_talent_mana_restore_per_int")
+	if mana_per_int_talent and mana_per_int_talent:GetLevel() > 0 then
+		mana_per_int = mana_per_int + mana_per_int_talent:GetSpecialValueFor("value")
+	end
 
 	local mana = target:GetMana()
 	local max_mana = target:GetMaxMana()
@@ -162,7 +167,8 @@ function EnergyOverflowTick( keys )
 
 	if (mana + mana_boost_per_tick) > max_mana then
 		target:SetMana(max_mana)
-		local damage = mana_boost_per_tick - (max_mana - mana)
+		local damagePerManaOverflow = ability:GetLevelSpecialValueFor("damage_per_mana_overflow", ability:GetLevel() - 1)
+		local damage = (mana_boost_per_tick - (max_mana - mana)) * damagePerManaOverflow
 		ApplyDamage({victim = target, attacker = caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = ability})
 
 		local zap = ParticleManager:CreateParticle(particle_debuff, PATTACH_ABSORIGIN_FOLLOW, target)

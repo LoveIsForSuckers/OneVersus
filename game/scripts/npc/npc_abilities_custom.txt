@@ -2806,6 +2806,7 @@
 		}
 	}
 
+
 	"arcane_shard"
 	{
 			// General
@@ -2880,6 +2881,7 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"tooltip_attacks"			"3"
+				"LinkedSpecialBonus"		"arcane_shard_talent_hero_attack_damage_reduction"
 			}
 		}
 
@@ -2947,6 +2949,29 @@
 			}
 		}
 	}
+	
+	"arcane_shard_talent_hero_attack_damage_reduction"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "3" 				// tooltip value - attacks to destroy bonus
+			}
+			
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"hero_attack_damage_reduction" "2" // actual value - damage reduction, don't forget to update tooltip if changing
+			}
+		}
+	}
 
 	"oracle_test_fire"
 	{
@@ -2969,35 +2994,38 @@
 		"AbilityManaCost"	"120"
 
 		"AbilitySpecial"
-      	   	  {	
-          	 	 "01"
-         	 	  {
-           	 	    "var_type"                    "FIELD_INTEGER"
-           	 	    "speed"        "1400"
-         	 	  }
-  
-          		  "02"
-          		  {
-         	 	      "var_type"                    "FIELD_INTEGER"
-                		"width"    "115"
-         		   }
-  		
-            		"03"
-          		  {
-              		  	"var_type"                    "FIELD_INTEGER"
-           		   	"distance"            "1400"
-          		  }
+	    {	
+			"01"
+			{
+				"var_type"     "FIELD_INTEGER"
+				"speed"        "1400"
+			}
+
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"width"    "115"
+			}
+	
+			"03"
+			{
+				"var_type"   "FIELD_INTEGER"
+				"distance"   "1400"
+			}
+			
 			"04"
 			{
 				"var_type"	"FIELD_INTEGER"
 				"damage"	"140 180 220 260"
+				"LinkedSpecialBonus" "arcane_test_fire_talent_damage"
 			}
+			
 			"05"
 			{
 				"var_type" 	"FIELD_INTEGER"
 				"shard_check_radius" "600"
 			}
-	  	 }
+	  	}
 
 		"OnSpellStart"
 		{
@@ -3020,12 +3048,6 @@
 		{
 			"DeleteOnHit" "false"
 
-			"FireSound"
-			{	
-				"EffectName" "Hero_Oracle.FortunesEnd.Target"
-				"Target" "TARGET"
-			}
-
 			"FireEffect"
 			{
 				"EffectName" "particles/units/heroes/hero_arcane/mystic_hit_sparks.vpcf"
@@ -3033,22 +3055,40 @@
 				"Duration" "1"
 				"Target" "TARGET"
 			}
-
-			"Damage"
-			{	
-				"Target" "TARGET"			
-				"Type" "DAMAGE_TYPE_MAGICAL"
-				"Damage" "%damage"
+			
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/hero_arcane/test_fire.lua"
+				"Function"		"OnProjectileHitUnit"
+				"Target"		"TARGET"
 			}
 		}
 
 	}
+	
+	"arcane_test_fire_talent_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "180" 				// bonus damage
+			}
+		}
+	}
 
 	"force_field"
 	{
-		"BaseClass" "ability_datadriven"
+		"BaseClass" "ability_lua"
 		"AbilityTextureName"			"force_field"
-
+		"ScriptFile" "scripts/vscripts/heroes/hero_arcane/force_field.lua"
+		
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -3067,6 +3107,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"damage" "15 25 35 45"
+				"LinkedSpecialBonus" "arcane_force_field_talent_damage"
 			}
 
 			"02"
@@ -3085,6 +3126,7 @@
 			{
 				"var_type" "FIELD_FLOAT"
 				"pulse_delay" "0.6"
+				"LinkedSpecialBonus" "arcane_force_field_talent_pulse_delay_reduction"
 			}
 
 			"05"
@@ -3099,81 +3141,38 @@
 				"shard_check_radius" "600"
 			}
 		}
-
-		"OnSpellStart"
+	}
+	
+	"arcane_force_field_talent_pulse_delay_reduction"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
 		{
-			"ApplyModifier"
+			"01"
 			{
-				"ModifierName" "modifier_force_field"
-				"Target" "CASTER"
-			}
-
-			"RunScript"
-			{
-				"ScriptFile"	"heroes/hero_arcane/arcane_shard.lua"
-				"Function"	"ForceField"
-				"Modifier"	"modifier_force_field"
+				"var_type" "FIELD_FLOAT"
+				"value" "-0.2" 				// stun duration on explosion
 			}
 		}
-
-		"Modifiers"
-		{
-			"modifier_force_field"
-			{
-				"IsBuff" "1"
-				"IsPurgable" "1"
-
-				"Duration" "%duration"
-
-				"EffectName" "particles/units/heroes/hero_arcane/force_field.vpcf"
-				"EffectAttachType" "follow_origin"
-
-				"OnCreated"
-				{
-					"FireSound"
-					{
-						"EffectName" "Hero_Oracle.FatesEdict.Cast"
-						"Target" "TARGET"
-					}
-				}
-
-				"ThinkInterval" "%pulse_delay"
-
-				"OnIntervalThink"
-				{
-					"FireSound"
-					{	
-						"EffectName" "Hero_Oracle.PurifyingFlames.Damage"
-						"Target" "TARGET"
-					}
-
-					"ActOnTargets"
-					{
-						"Target"
-						{
-							"Center" "CASTER"
-							"Radius" "%radius"
-							"Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-							"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-						}
+	}
 	
-						"Action"
-						{
-							"Stun"
-							{
-								"Duration" "%ministun"
-								"Target" "TARGET"
-							}
-
-							"Damage"
-							{
-								"Type" "DAMAGE_TYPE_MAGICAL"
-								"Target" "TARGET"
-								"Damage" "%damage"
-							}
-						}
-					}
-				}
+	"arcane_force_field_talent_damage"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "45" 				// bonus damage
 			}
 		}
 	}
@@ -3208,6 +3207,7 @@
 			{
 				"var_type" "FIELD_FLOAT"
 				"mana_restore_per_int_bonus" "2.0 3.0 4.0 5.0"
+				"LinkedSpecialBonus" "arcane_energy_overflow_talent_mana_restore_per_int"
 			}
 
 			"03"
@@ -3275,8 +3275,56 @@
 					}
 				}
 			}
+			
+			"modifier_energy_overflow_silence_talent"
+			{
+				"IsDebuff" "1"
+				"IsPurgable" "1"
+				
+				"Duration" "%duration"
+
+				"States"
+				{
+					"MODIFIER_STATE_SILENCED" "MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
 		}
 	}
+	
+	"arcane_energy_overflow_talent_silence_enemies"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "1" 				// irrelevant
+			}
+		}
+	}
+	
+	"arcane_energy_overflow_talent_mana_restore_per_int"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "2.0" 				// bonus mana restored per int, update addon_english if changing
+			}
+		}
+	}
+	
 	
 	"shield_passive"
 	{
