@@ -99,7 +99,7 @@ function ShieldAttackBoost( keys )
 	local particle = keys.Particle
 	local ability = keys.ability
 	local modifier = keys.Modifier
-
+	
 	if not target:IsRealHero() then
 		return nil
 	end
@@ -110,10 +110,21 @@ function ShieldAttackBoost( keys )
 
 
 	local boost = ability:GetLevelSpecialValueFor("attack_boost",ability:GetLevel() - 1 )
+	local boost_talent = target:FindAbilityByName("shield_passive_talent_attack_boost")
+	if boost_talent and boost_talent:GetLevel() > 0 then
+		boost = boost + boost_talent:GetSpecialValueFor("value")
+	end
+	
 	local maxshield = ability:GetLevelSpecialValueFor("max_shield",ability:GetLevel() - 1 )
+	local max_shield_talent = target:FindAbilityByName("shield_passive_talent_max_shield_per_int")
+	if max_shield_talent and max_shield_talent:GetLevel() > 0 then
+		maxshield = maxshield + (target:GetIntellect() * max_shield_talent:GetSpecialValueFor("value"))
+	end
 
 	ApplyDamage({victim = victim, attacker = target, damage = boost, damage_type = DAMAGE_TYPE_PURE, ability = ability})
 	SendOverheadEventMessage( nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE , victim, boost, target )
+
+	if target.ShieldLeft > maxshield then return nil end
 
 	if target.ShieldLeft + boost < maxshield then
 		target.ShieldLeft = target.ShieldLeft + boost

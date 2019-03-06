@@ -24,6 +24,11 @@ function Cast( keys )
 			if target:HasModifier( modifier ) then
 				local cooldown = shield_ability:GetCooldown( shield_ability:GetLevel() - 1 )
 				local shield_factor = ability:GetLevelSpecialValueFor("damage_per_shield", ability:GetLevel() - 1)
+				local shield_factor_talent = target:FindAbilityByName("ultimate_emp_talent_damage_per_shield")
+				if shield_factor_talent and shield_factor_talent:GetLevel() > 0 then
+					shield_factor = shield_factor + shield_factor_talent:GetSpecialValueFor("value")
+				end
+				
 				damage = damage + target.ShieldLeft * shield_factor
 		
 				target.ShieldLeft = nil

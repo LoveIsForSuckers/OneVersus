@@ -3351,13 +3351,14 @@
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
-				"max_shield" "250 500 1000 2000"
+				"max_shield" "250 550 850 1150"
 			}
 
 			"03"
 			{
 				"var_type" "FIELD_INTEGER"
 				"attack_boost" "5 10 15 20"
+				"LinkedSpecialBonus" "shield_passive_talent_attack_boost"
 			}
 		}
 
@@ -3466,6 +3467,40 @@
 			}
 		}
 	}
+	
+	"shield_passive_talent_attack_boost"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "30" 				// extra attack boost
+			}
+		}
+	}
+	
+	"shield_passive_talent_max_shield_per_int"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "6" 				// max shield per int
+			}
+		}
+	}
 
 	"new_surge"
 	{
@@ -3526,8 +3561,6 @@
 				"var_type"	"FIELD_INTEGER"
 				"shield_transfer" "10 15 20 25"
 			}
-
-
 		}
 
 		"OnSpellStart"
@@ -3589,6 +3622,7 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"charge_per_sec" "40 80 120 160"
+				"LinkedSpecialBonus" "shield_maintenance_talent_charge_per_sec"
 			}
 			"02"
 			{
@@ -3672,6 +3706,23 @@
 			}
 		}
 	}
+	
+	"shield_maintenance_talent_charge_per_sec"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"value" "160" 				// charge per sec bonus
+			}
+		}
+	}
 
 	"ultimate_emp"
 	{
@@ -3732,6 +3783,7 @@
 			{
 				"var_type"					"FIELD_FLOAT"
 				"damage_per_shield"		"0.4 0.5 0.6"
+				"LinkedSpecialBonus"	"ultimate_emp_talent_damage_per_shield"
 			}
 
 			"05"
@@ -3747,20 +3799,20 @@
 				"duration"				"3"
 			}
 		}
-	
+		
 		"OnSpellStart"
 		{
 			"RunScript"
 			{
-						"ScriptFile" "scripts/vscripts/heroes/hero_shield/ultimate_emp.lua"
-						"Function" "Cast"
-						"Modifier"	"modifier_shield_passive_shield"
-						"SlowModifier"	"modifier_ultimate_emp_slow"
-						"ShieldAbility" "shield_passive"
-						"Particle" "particles/units/heroes/hero_shield/ultimate_emp.vpcf"
+				"ScriptFile" "scripts/vscripts/heroes/hero_shield/ultimate_emp.lua"
+				"Function" "Cast"
+				"Modifier"	"modifier_shield_passive_shield"
+				"SlowModifier"	"modifier_ultimate_emp_slow"
+				"ShieldAbility" "shield_passive"
+				"Particle" "particles/units/heroes/hero_shield/ultimate_emp.vpcf"
 			}
 		}
-	
+		
 		"Modifiers"
 		{
 			"modifier_ultimate_emp_slow"
@@ -3779,6 +3831,24 @@
 			}
 		}
 	}
+	
+	"ultimate_emp_talent_damage_per_shield"
+	{
+		"BaseClass" "special_bonus_undefined"
+		"AbilityType" "DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel" "1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_FLOAT"
+				"value" "0.4" 				// damage per shield increase
+			}
+		}
+	}
+	
 
 	"shadow_step"
 	{    	

@@ -10,13 +10,25 @@ function OnTick( keys )
 
 	if (s_level) <= 0 then
 		local hep = ability:GetLevelSpecialValueFor("unlearned_heal", ability:GetLevel() - 1)
-		keys.caster:Heal(hep,keys.caster)
+		target:Heal(hep,target)
 		return nil
 	end
 
 	if target:HasModifier( modifier ) then
 		local maxshield = shield_ability:GetLevelSpecialValueFor("max_shield",shield_ability:GetLevel() - 1 )
+		local max_shield_talent = target:FindAbilityByName("shield_passive_talent_max_shield_per_int")
+		if max_shield_talent and max_shield_talent:GetLevel() > 0 then
+			maxshield = maxshield + (target:GetIntellect() * max_shield_talent:GetSpecialValueFor("value"))
+		end
+		
+		if target.ShieldLeft > maxshield then return nil end
+		
 		local charge = ability:GetLevelSpecialValueFor("charge_per_sec",ability:GetLevel() - 1 )
+		local charge_talent = target:FindAbilityByName("shield_maintenance_talent_charge_per_sec")
+		if charge_talent and charge_talent:GetLevel() > 0 then
+			charge = charge + charge_talent:GetSpecialValueFor("value")
+		end
+		
 		if target.ShieldLeft + charge < maxshield then
 			target.ShieldLeft = target.ShieldLeft + charge
 		else
