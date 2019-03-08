@@ -2058,7 +2058,7 @@
 		"FightRecapLevel" "2"
 
 		"AbilityCastRange" "600"
-		"AbilityCooldown" "180 150 120"
+		"AbilityCooldown" "80"
 		"AbilityManaCost" "250 330 400"
 
 		"AbilitySpecial"
@@ -2549,7 +2549,7 @@
 			"01"
 			{
 				"var_type" "FIELD_FLOAT"
-				"regen_per_stack" "0.4 0.8 1.2 1.6"
+				"regen_per_stack" "0.6 1.2 1.8 2.4"
 			}
 
 			"02"

@@ -39,6 +39,9 @@ end
 function checkHealth( keys )
 	local ability = keys.ability
 	local caster = keys.caster
+	
+	if not caster:IsRealHero() then return nil end
+	
 	local healthThreshold = ability:GetLevelSpecialValueFor("health_threshold", (ability:GetLevel() - 1 ) )
 	local modifier = keys.modifier
 	local cooldown = ability:GetCooldown( ability:GetLevel() )
